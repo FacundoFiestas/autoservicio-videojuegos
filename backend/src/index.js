@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import config from './api/config/environments.js';
-import sequelize, { testConnection } from './api/config/database/db.js';
+import sequelize, { testConnection } from './api/database/db.js';
 
 const app = express();
 
