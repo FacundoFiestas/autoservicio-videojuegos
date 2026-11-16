@@ -1,0 +1,163 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: none;
+    text-decoration: none;
+    font-family: 'Jost';
+    font-weight: 500;
+}
+
+:root{
+    --darkblue: #19274E;
+    --lightblue: #2BAAC4;
+    --turquesa: #459A86;
+    --lightgreen: #BCD8C1;
+    --white: #f0f0f0;
+    --black: #1c1c1c;
+}
+
+/* ---------------
+    Estilos Generales 
+------------------ */
+body{
+    background-color: var(--darkblue);
+}
+header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white);
+    padding: 15px;
+}
+
+.logo-container{
+    padding-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo-header{
+    max-width: 70px;
+}
+
+.nav-container{
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+.nav-btn{
+    background-color: var(--darkblue);
+    padding: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 3px; 
+    color: var(--white);
+}
+.nav-btn:hover{
+    background-color: var(--white);
+    color: var(--black);
+    outline: 2px solid var(--black);
+}
+
+.titulo, .titulo-categoria{
+    display: flex;
+    justify-content: flex-start;
+    width: 70%;
+    margin: 30px auto;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+#contenedor-pc, 
+#contenedor-consola, 
+#cont-createProduct{
+    display: flex;
+    width: 70%;
+    margin: auto;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid var(--white);
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+/* ---------------
+    Estilos POST 
+------------------ */
+
+#form-createProduct{
+    padding: 10px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+}
+
+#form-createProduct label{
+    color: var(--white);
+}
+#form-createProduct input{
+    color: var(--black);
+    border-radius: 6px;
+    padding: 10px;
+}
+#form-createProduct select{
+    border-radius: 6px;
+    padding: 10px;
+}
+#form-createProduct input[type=submit]{
+    background-color: var(--lightblue);
+    font-weight: 700;
+    color: var(--white)
+}
+
+#form-createProduct input[type=submit]:hover{
+    background-color: var(--black);
+    color: var(--white);
+    cursor: pointer;
+}
+/* ---------------
+    Tarjetas 
+------------------ */
+.card-producto {
+    width: 170px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: space-between;
+    background-color: var(--lightblue);
+    padding: 15px;
+}
+
+.card-img{
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.card-producto h4{
+    color: var(--white);
+    font-weight: 800;
+}
+.card-producto span{
+    border-radius: 6px;
+    font-weight: 400;
+    color: var(--white);
+}
+.card-producto p{
+    color: var(--white);
+}
+
+
+/* ---------------
+    Mensajes y errores 
+------------------ */
+
+.mensaje{
+    color: var(--white);
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Autoservicio Admin</title>
+
+    
+    <!-- Icono -->
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img class="logo-header" src="assets/logo.png" alt="logo">
+        </div>
+
+        <nav class="nav-container">
+            <a href="index.html" class="nav-btn">Principal</a>
+            <a href="post.html" class="nav-btn">Agregar</a>
+            <a href="put.html" class="nav-btn">Modificar</a>
+            <a href="get.html" class="nav-btn">Obtener</a>
+            <a href="delete.html" class="nav-btn">Eliminar</a>
+        </nav>
+    </header>
+    <main>
+        <!-- Juegos de PC -->
+        <section class="seccion-categoria">
+            <h3 class="titulo-categoria">Productos de PC</h3>
+            <div id="contenedor-pc" class="contenedor-productos"></div>
+        </section>
+
+        <!-- Juegos de Consola -->
+        <section class="seccion-categoria">
+            <h3 class="titulo-categoria">Productos de Consola</h3>
+            <div id="contenedor-consola" class="contenedor-productos"></div>
+        </section>
+    </main>
+
+    <script>
+        const urlBase = "http://localhost:3000";
+        const contPC = document.getElementById("contenedor-pc");
+        const contConsola = document.getElementById("contenedor-consola");
+        
+        function mostrarError(mensaje) {
+            contPC.innerHTML = `<p class="mensaje">${mensaje}</p>`;
+            contConsola.innerHTML = `<p class="mensaje">${mensaje}</p>`;
+        }
+
+        // Obtener productos de la bbdd
+        async function obtenerProductos() {
+            try {
+                const response = await fetch(`${urlBase}/api/productos`);
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    console.error(data.message);
+                    return mostrarError(data.message);
+                }
+
+                const productos = data.data;
+                
+                renderizarPorTipo(productos);
+
+            } catch (error) {
+                console.error("Error al obtener productos: ", error);
+                return mostrarError("Error de conexion con el servidor");
+            }
+        }
+
+        // Filtrar y plasmar productos en el HTML segun su tipo
+        function renderizarPorTipo(array) {
+            let htmlPC = "";
+            let htmlConsola = "";
+
+            array.forEach(producto => {
+                const cardHTML = `
+                    <div class="card-producto">
+                        <img class="card-img" src="${producto.imagen}" alt="${producto.nombre}">
+                        <span>ID: ${producto.id}</span>
+                        <h4>${producto.nombre} </h4> 
+                        <p>$ ${producto.precio}</p>
+                        <p>Tipo: ${producto.tipo}</p>
+                        <p>Estado: ${producto.activo}</p>
+                    </div>
+                `;
+
+                const tipo = producto.tipo ? producto.tipo.toLowerCase() : "";
+
+                if (tipo.includes("pc")) {
+                    htmlPC += cardHTML;
+                } else if (tipo.includes("consola")) {
+                    htmlConsola += cardHTML;
+                }
+            });
+
+            contPC.innerHTML = htmlPC || "<p>No hay productos de PC cargados</p>";
+            contConsola.innerHTML = htmlConsola || "<p>No hay productos de Consola cargados</p>";
+        }
+
+        obtenerProductos();
+    </script>
+</body>
+</html>
