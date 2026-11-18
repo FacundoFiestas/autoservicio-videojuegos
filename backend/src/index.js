@@ -2,8 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import config from './api/config/environments.js';
 import sequelize, { testConnection } from './api/database/db.js';
-import { User } from './api/models/index.js';
-import { productRoutes, userRoutes, saleRoutes, viewRoutes } from "./api/routes/index.js";
+import Product from './api/models/product.models.js';
+import User from './api/models/user.models.js';
+import { productRoutes, userRoutes, viewRoutes } from "./api/routes/index.js";
 import { __dirname, join } from './api/utils/index.js';
 
 const app = express();
@@ -19,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Probar conexión, sincronizar tablas y asegurar admin por defecto
+// Probar conexión, sincronizar tablas y crear admin inicial
 const iniciarBaseDeDatos = async () => {
     await testConnection();
     await sequelize.sync();
@@ -39,7 +40,6 @@ iniciarBaseDeDatos();
 // Rutas API
 app.use('/api/productos', productRoutes);
 app.use('/api/usuarios', userRoutes);
-app.use('/api/ventas', saleRoutes);
 
 // Rutas EJS
 app.use("/dashboard", viewRoutes);
