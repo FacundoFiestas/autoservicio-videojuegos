@@ -23,17 +23,44 @@ export const getProducts = async (req, res) => {
 };
 
 ////////////////////////////////
+// Obtener producto por ID
+export const getProductById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await Product.findByPk(id);
+
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: `No se encontró ningún producto con ID ${id}`
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: product
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Error al obtener el producto',
+            error: error.message
+        });
+    }
+};
+
+////////////////////////////////
 // Crear producto nuevo
 export const createProduct = async (req, res) => {
     try {
-        const { nombre, precio, descripcion, imagen, tipo } = req.body;
+        const { nombre, precio, imagen, tipo, activo } = req.body;
 
         const newProduct = await Product.create({
-            nombre,
-            precio,
-            descripcion,
-            imagen,
-            tipo
+            nombre: nombre.trim(),
+            precio: Number(precio),
+            imagen: imagen || null,
+            tipo: tipo.trim(),
+            activo: activo !== undefined ? Boolean(activo) : true
         });
 
         return res.status(201).json({
@@ -45,6 +72,109 @@ export const createProduct = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: 'Error al crear el producto',
+            error: error.message
+        });
+    }
+};
+
+////////////////////////////////
+// Actualizar producto existente
+export const updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nombre, precio, imagen, tipo, activo } = req.body;
+
+        const product = await Product.findByPk(id);
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: `No se encontró ningún producto con ID ${id}`
+            });
+        }
+
+        await product.update({
+            nombre: nombre.trim(),
+            precio: Number(precio),
+            imagen: imagen !== undefined ? imagen : product.imagen,
+            tipo: tipo.trim(),
+            activo: activo !== undefined ? Boolean(activo) : product.activo
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Producto actualizado con éxito',
+            data: product
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Error al actualizar el producto',
+            error: error.message
+        });
+    }
+};
+
+////////////////////////////////
+// Activar o desactivar producto (Baja / Reactivación lógica)
+export const toggleProductStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await Product.findByPk(id);
+
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: `No se encontró ningún producto con ID ${id}`
+            });
+        }
+
+        const nuevoEstado = req.body?.activo !== undefined
+            ? Boolean(req.body.activo)
+            : !product.activo;
+
+        await product.update({ activo: nuevoEstado });
+
+        return res.status(200).json({
+            success: true,
+            message: nuevoEstado
+                ? 'Producto reactivado con éxito'
+                : 'Producto dado de baja con éxito',
+            data: product
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Error al cambiar el estado del producto',
+            error: error.message
+        });
+    }
+};
+
+////////////////////////////////
+// Baja lógica mediante DELETE
+export const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await Product.findByPk(id);
+
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: `No se encontró ningún producto con ID ${id}`
+            });
+        }
+
+        await product.update({ activo: false });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Producto dado de baja con éxito',
+            data: product
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Error al dar de baja el producto',
             error: error.message
         });
     }

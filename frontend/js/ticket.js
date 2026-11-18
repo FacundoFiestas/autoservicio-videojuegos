@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const subtotal = prod.precio * prod.cantidad;
         return `
             <tr>
-                <td>${prod.nombre} (${prod.categoria})</td>
+                <td>${prod.nombre} (${prod.tipo})</td>
                 <td>${prod.cantidad}</td>
                 <td class="col-derecha">$ ${subtotal.toLocaleString("es-AR")}</td>
             </tr>
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let y = 83;
         ticketData.productos.forEach(prod => {
             const subtotal = prod.precio * prod.cantidad;
-            const linea = `${prod.cantidad}x ${prod.nombre} (${prod.categoria}) - $ ${subtotal.toLocaleString("es-AR")}`;
+            const linea = `${prod.cantidad}x ${prod.nombre} (${prod.tipo}) - $ ${subtotal.toLocaleString("es-AR")}`;
             doc.text(linea, 20, y);
             y += 10;
         });

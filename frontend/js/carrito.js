@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <img class="carrito-item-img" src="${item.imagen}" alt="${item.nombre}">
                         <div>
                             <h4>${item.nombre}</h4>
-                            <span>Categoría: ${item.categoria} | Unitario: $ ${item.precio.toLocaleString("es-AR")}</span>
+                            <span>Tipo: ${item.tipo} | Unitario: $ ${item.precio.toLocaleString("es-AR")}</span>
                         </div>
                     </div>
 
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
             productos: carrito.map(item => ({
                 id_producto: item.id,
                 nombre: item.nombre,
-                categoria: item.categoria,
+                tipo: item.tipo,
                 precio: item.precio,
                 cantidad: item.cantidad
             }))

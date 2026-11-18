@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const URL_BASE = "http://localhost:3000";
+
     // 1. Verificar que exista un nombre de cliente cargado
     const nombreCliente = localStorage.getItem("autogames_cliente");
     if (!nombreCliente) {
@@ -11,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Estado de la aplicación
     let todosLosProductos = [];
     let productosFiltrados = [];
-    let categoriaActual = "TODOS";
+    let tipoActual = "TODOS";
     let paginaActual = 1;
     const productosPorPagina = 4;
 
@@ -25,27 +27,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnSiguiente = document.getElementById("btn-siguiente");
     const botonesFiltro = document.querySelectorAll(".btn-filtro");
 
-    // 3. Cargar productos (luego se cambiará la ruta a http://localhost:3000/api/productos)
+    // Helper para resolver rutas de imágenes (externas o subidas al backend)
+    function resolverUrlImagen(imagen) {
+        if (!imagen) return "https://placehold.co/300x360/19274E/f0f0f0?text=Sin+Imagen";
+        if (imagen.startsWith("http")) return imagen;
+        return `${URL_BASE}${imagen.startsWith("/") ? "" : "/"}${imagen}`;
+    }
+
+    // 3. Obtener productos desde la API REST del Backend
     async function cargarProductos() {
         try {
-            const response = await fetch("data/productos.json");
-            const data = await response.json();
+            const response = await fetch(`${URL_BASE}/api/productos`);
+            const resultado = await response.json();
 
-            // Filtrar solo los productos activos (requerimiento del TP)
-            todosLosProductos = data.filter(prod => prod.activo === true);
+            if (!response.ok || !resultado.success) {
+                throw new Error(resultado.message || "Error al obtener productos");
+            }
+
+            // Filtrar solo productos activos y normalizar el precio a número
+            todosLosProductos = resultado.data
+                .filter(prod => Boolean(prod.activo) === true)
+                .map(prod => ({
+                    ...prod,
+                    precio: Number(prod.precio),
+                    imagenUrl: resolverUrlImagen(prod.imagen)
+                }));
+
             aplicarFiltroYRenderizar();
         } catch (error) {
             console.error("Error al cargar el catálogo:", error);
-            contenedor.innerHTML = `<p class="mensaje">No se pudieron cargar los productos.</p>`;
+            contenedor.innerHTML = `<p class="mensaje">No se pudo conectar con el servidor (${error.message}).</p>`;
         }
     }
 
     function aplicarFiltroYRenderizar() {
-        if (categoriaActual === "TODOS") {
+        if (tipoActual === "TODOS") {
             productosFiltrados = [...todosLosProductos];
         } else {
             productosFiltrados = todosLosProductos.filter(
-                prod => prod.categoria.toLowerCase() === categoriaActual.toLowerCase()
+                prod => prod.tipo && prod.tipo.toLowerCase().includes(tipoActual.toLowerCase())
             );
         }
 
@@ -71,8 +91,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 return `
                     <article class="card-producto">
                         <div>
-                            <img class="card-img" src="${producto.imagen}" alt="${producto.nombre}">
-                            <span class="card-badge">${producto.categoria}</span>
+                            <img class="card-img" src="${producto.imagenUrl}" alt="${producto.nombre}">
+                            <span class="card-badge">${producto.tipo}</span>
                             <h4>${producto.nombre}</h4>
                         </div>
                         <div>
@@ -98,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
         actualizarContadorCarrito();
     }
 
-    // 4. Funciones globales para los botones de cada tarjeta
+    // 4. Funciones globales del carrito
     window.agregarAlCarrito = (idProducto) => {
         const producto = todosLosProductos.find(p => p.id === idProducto);
         if (!producto) return;
@@ -110,9 +130,9 @@ document.addEventListener("DOMContentLoaded", () => {
             carrito.push({
                 id: producto.id,
                 nombre: producto.nombre,
-                categoria: producto.categoria,
+                tipo: producto.tipo,
                 precio: producto.precio,
-                imagen: producto.imagen,
+                imagen: producto.imagenUrl,
                 cantidad: 1
             });
         }
@@ -141,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", () => {
             botonesFiltro.forEach(b => b.classList.remove("activo"));
             btn.classList.add("activo");
-            categoriaActual = btn.dataset.categoria;
+            tipoActual = btn.dataset.categoria;
             aplicarFiltroYRenderizar();
         });
     });
