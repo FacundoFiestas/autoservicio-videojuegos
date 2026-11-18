@@ -352,3 +352,256 @@ main {
     opacity: 0.4;
     cursor: not-allowed;
 }
+
+/* ---------------
+    Pantalla Carrito y Modal
+------------------ */
+.carrito-main {
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.carrito-lista {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.carrito-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-card);
+    color: var(--white);
+    padding: 15px 20px;
+    border-radius: 8px;
+    gap: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.carrito-item-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 220px;
+}
+
+.carrito-item-img {
+    width: 65px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.carrito-controles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-cantidad {
+    background-color: var(--darkblue);
+    color: var(--white);
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cantidad-valor {
+    font-size: 1.1rem;
+    font-weight: 700;
+    min-width: 24px;
+    text-align: center;
+}
+
+.carrito-subtotal {
+    font-size: 1.15rem;
+    font-weight: 700;
+    min-width: 110px;
+    text-align: right;
+}
+
+.carrito-resumen {
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-container);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.total-texto {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.resumen-acciones {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Modal de confirmación */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    z-index: 1000;
+}
+
+.modal-overlay.activo {
+    display: flex;
+}
+
+.modal-box {
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    border: 2px solid var(--lightblue);
+    border-radius: 8px;
+    padding: 25px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.modal-box h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.modal-box p {
+    margin-bottom: 20px;
+}
+
+.modal-botones {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.btn-secundario {
+    background-color: #6c757d;
+    color: var(--white);
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ---------------
+   Pantalla Ticket
+------------------ */
+.ticket-main {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 30px 15px;
+}
+
+.ticket-card {
+    background-color: #ffffff;
+    color: var(--black);
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border-top: 8px solid var(--lightblue);
+}
+
+.ticket-header {
+    text-align: center;
+    border-bottom: 2px dashed #cccccc;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.ticket-header h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--darkblue);
+}
+
+.ticket-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px dashed #cccccc;
+}
+
+.ticket-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.ticket-tabla th {
+    text-align: left;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 8px;
+    color: var(--darkblue);
+    font-weight: 700;
+}
+
+.ticket-tabla td {
+    padding: 8px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.ticket-tabla .col-derecha {
+    text-align: right;
+}
+
+.ticket-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--darkblue);
+    padding-top: 10px;
+    border-top: 2px solid var(--darkblue);
+    margin-bottom: 25px;
+}
+
+.ticket-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-pdf {
+    background-color: var(--turquesa);
+    color: var(--white);
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-pdf:hover {
+    opacity: 0.9;
+}

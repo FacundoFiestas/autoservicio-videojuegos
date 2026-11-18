@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoGames - Carrito</title>
+
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="brand-container">
+            <img class="logo-header" src="assets/logo.png" alt="Logo AutoGames">
+            <div class="brand-info">
+                <h1>AutoGames</h1>
+                <span class="alumnos-tag">Desarrollado por: Mariano Sibello & Facundo Fiestas</span>
+            </div>
+        </div>
+
+        <nav class="nav-container">
+            <button type="button" id="btn-tema" class="nav-btn">Tema Claro</button>
+            <a href="productos.html" class="nav-btn">Volver al Catálogo</a>
+            <a href="index.html" class="nav-btn">Cancelar Compra</a>
+        </nav>
+    </header>
+
+    <main class="carrito-main">
+        <div class="catalogo-header">
+            <h2 id="titulo-carrito" class="saludo-cliente">Tu Carrito</h2>
+        </div>
+
+        <section id="lista-carrito" class="carrito-lista">
+            <!-- Los productos del carrito se cargan desde carrito.js -->
+        </section>
+
+        <section id="resumen-carrito" class="carrito-resumen">
+            <span class="total-texto">Total: $ <span id="total-compra">0</span></span>
+            <div class="resumen-acciones">
+                <a href="productos.html" class="btn-secundario">Seguir comprando</a>
+                <button type="button" id="btn-abrir-modal" class="btn-primary">Finalizar Compra</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal de Confirmación de Compra -->
+    <div id="modal-confirmacion" class="modal-overlay">
+        <div class="modal-box">
+            <h3>Confirmar compra</h3>
+            <p id="texto-modal">¿Estás seguro de que querés confirmar tu pedido?</p>
+            <div class="modal-botones">
+                <button type="button" id="btn-cancelar-modal" class="btn-secundario">Cancelar</button>
+                <button type="button" id="btn-confirmar-compra" class="btn-primary">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script src="js/carrito.js"></script>
+</body>
+</html>
