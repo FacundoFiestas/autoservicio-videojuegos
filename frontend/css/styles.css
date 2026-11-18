@@ -1,0 +1,607 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: none;
+    text-decoration: none;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+}
+
+:root {
+    /* Paleta original */
+    --darkblue: #19274E;
+    --lightblue: #2BAAC4;
+    --turquesa: #459A86;
+    --lightgreen: #BCD8C1;
+    --white: #f0f0f0;
+    --black: #1c1c1c;
+
+    /* Variables dinámicas (Tema Oscuro por defecto) */
+    --bg-body: var(--darkblue);
+    --bg-header: var(--white);
+    --text-header: var(--black);
+    --text-primary: var(--white);
+    --bg-card: var(--lightblue);
+    --border-container: var(--white);
+}
+
+body.light-theme {
+    --bg-body: var(--white);
+    --bg-header: var(--darkblue);
+    --text-header: var(--white);
+    --text-primary: var(--darkblue);
+    --bg-card: var(--turquesa);
+    --border-container: var(--darkblue);
+}
+
+/* ---------------
+    Estilos Generales 
+------------------ */
+body {
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-header);
+    color: var(--text-header);
+    padding: 15px 5%;
+    gap: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-header {
+    max-width: 60px;
+    height: auto;
+}
+
+.brand-info h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.alumnos-tag {
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+
+.nav-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-btn {
+    background-color: var(--darkblue);
+    padding: 8px 14px;
+    border-radius: 4px;
+    color: var(--white);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+body.light-theme .nav-btn {
+    background-color: var(--lightblue);
+    color: var(--black);
+    font-weight: 600;
+}
+
+.nav-btn:hover {
+    background-color: var(--turquesa);
+    color: var(--white);
+}
+
+/* ---------------
+    Pantalla Bienvenida 
+------------------ */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 15px;
+}
+
+.bienvenida-box {
+    width: 100%;
+    max-width: 480px;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border-container);
+    background-color: rgba(43, 170, 196, 0.12);
+    text-align: center;
+}
+
+.bienvenida-box h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.bienvenida-box p {
+    margin-bottom: 20px;
+    font-size: 1.05rem;
+}
+
+.form-bienvenida {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-bienvenida input[type="text"] {
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: var(--white);
+    color: var(--black);
+    border: 2px solid var(--lightblue);
+}
+
+.btn-primary {
+    background-color: var(--lightblue);
+    color: var(--white);
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--turquesa);
+}
+
+.error-msg {
+    color: #ff6b6b;
+    font-size: 0.9rem;
+    min-height: 20px;
+}
+
+/* ---------------
+    Responsive 
+------------------ */
+@media (max-width: 650px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .brand-container {
+        flex-direction: column;
+    }
+
+    .nav-container {
+        justify-content: center;
+    }
+}
+
+/* ---------------
+    Catálogo y Filtros
+------------------ */
+.catalogo-main {
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.catalogo-header {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.saludo-cliente {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.filtros-categoria {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-filtro {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 2px solid var(--lightblue);
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-filtro.activo,
+.btn-filtro:hover {
+    background-color: var(--lightblue);
+    color: var(--white);
+}
+
+.contenedor-productos {
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid var(--border-container);
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    min-height: 360px;
+}
+
+.card-producto {
+    width: 210px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--bg-card);
+    padding: 15px;
+    color: var(--white);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.card-badge {
+    display: inline-block;
+    background-color: var(--darkblue);
+    color: var(--white);
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    width: fit-content;
+}
+
+.card-producto h4 {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+}
+
+.card-precio {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.card-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.btn-agregar {
+    background-color: var(--darkblue);
+    color: var(--white);
+    padding: 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-agregar:hover {
+    opacity: 0.9;
+}
+
+.btn-quitar {
+    background-color: #d9534f;
+    color: var(--white);
+    padding: 6px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* ---------------
+    Paginación
+------------------ */
+.paginacion-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-pagina {
+    background-color: var(--lightblue);
+    color: var(--white);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-pagina:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ---------------
+    Pantalla Carrito y Modal
+------------------ */
+.carrito-main {
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.carrito-lista {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.carrito-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-card);
+    color: var(--white);
+    padding: 15px 20px;
+    border-radius: 8px;
+    gap: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.carrito-item-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 220px;
+}
+
+.carrito-item-img {
+    width: 65px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.carrito-controles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-cantidad {
+    background-color: var(--darkblue);
+    color: var(--white);
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cantidad-valor {
+    font-size: 1.1rem;
+    font-weight: 700;
+    min-width: 24px;
+    text-align: center;
+}
+
+.carrito-subtotal {
+    font-size: 1.15rem;
+    font-weight: 700;
+    min-width: 110px;
+    text-align: right;
+}
+
+.carrito-resumen {
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-container);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.total-texto {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.resumen-acciones {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Modal de confirmación */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    z-index: 1000;
+}
+
+.modal-overlay.activo {
+    display: flex;
+}
+
+.modal-box {
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    border: 2px solid var(--lightblue);
+    border-radius: 8px;
+    padding: 25px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.modal-box h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.modal-box p {
+    margin-bottom: 20px;
+}
+
+.modal-botones {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.btn-secundario {
+    background-color: #6c757d;
+    color: var(--white);
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ---------------
+   Pantalla Ticket
+------------------ */
+.ticket-main {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 30px 15px;
+}
+
+.ticket-card {
+    background-color: #ffffff;
+    color: var(--black);
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border-top: 8px solid var(--lightblue);
+}
+
+.ticket-header {
+    text-align: center;
+    border-bottom: 2px dashed #cccccc;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.ticket-header h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--darkblue);
+}
+
+.ticket-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px dashed #cccccc;
+}
+
+.ticket-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.ticket-tabla th {
+    text-align: left;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 8px;
+    color: var(--darkblue);
+    font-weight: 700;
+}
+
+.ticket-tabla td {
+    padding: 8px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.ticket-tabla .col-derecha {
+    text-align: right;
+}
+
+.ticket-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--darkblue);
+    padding-top: 10px;
+    border-top: 2px solid var(--darkblue);
+    margin-bottom: 25px;
+}
+
+.ticket-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-pdf {
+    background-color: var(--turquesa);
+    color: var(--white);
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-pdf:hover {
+    opacity: 0.9;
+}

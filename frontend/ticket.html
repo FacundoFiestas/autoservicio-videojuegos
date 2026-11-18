@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoGames - Ticket de Compra</title>
+
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="stylesheet" href="css/styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- Librería jsPDF para descarga del comprobante -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="brand-container">
+            <img class="logo-header" src="assets/logo.png" alt="Logo AutoGames">
+            <div class="brand-info">
+                <h1>AutoGames</h1>
+                <span class="alumnos-tag">Desarrollado por: Mariano Sibello & Facundo Fiestas</span>
+            </div>
+        </div>
+
+        <nav class="nav-container">
+            <button type="button" id="btn-tema" class="nav-btn">Tema Claro</button>
+            <button type="button" id="btn-salir-header" class="nav-btn">Nueva Compra</button>
+        </nav>
+    </header>
+
+    <main class="ticket-main">
+        <article class="ticket-card" id="ticket-contenedor">
+            <div class="ticket-header">
+                <h2>AutoGames</h2>
+                <p>Comprobante de Autoservicio</p>
+            </div>
+
+            <div class="ticket-meta">
+                <span><strong>Operación N°:</strong> <span id="ticket-id">-</span></span>
+                <span><strong>Cliente:</strong> <span id="ticket-cliente">-</span></span>
+                <span><strong>Fecha:</strong> <span id="ticket-fecha">-</span></span>
+            </div>
+
+            <table class="ticket-tabla">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cant.</th>
+                        <th class="col-derecha">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="ticket-items">
+                    <!-- Se completa desde ticket.js -->
+                </tbody>
+            </table>
+
+            <div class="ticket-total">
+                <span>TOTAL PAGADO</span>
+                <span>$ <span id="ticket-total">0</span></span>
+            </div>
+
+            <div class="ticket-acciones">
+                <button type="button" id="btn-descargar-pdf" class="btn-pdf">Descargar Ticket en PDF</button>
+                <button type="button" id="btn-finalizar-salir" class="btn-primary">Salir y Reiniciar Autoservicio</button>
+            </div>
+        </article>
+    </main>
+
+    <script src="js/theme.js"></script>
+    <script src="js/ticket.js"></script>
+</body>
+</html>
