@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "nombre": "Cyberpunk 2077",
+    "categoria": "PC",
+    "precio": 45000,
+    "imagen": "https://placehold.co/300x360/19274E/f0f0f0?text=Cyberpunk+2077",
+    "activo": true
+  },
+  {
+    "id": 2,
+    "nombre": "God of War Ragnarök",
+    "categoria": "Consola",
+    "precio": 65000,
+    "imagen": "https://placehold.co/300x360/19274E/f0f0f0?text=God+of+War",
+    "activo": true
+  },
+  {
+    "id": 3,
+    "nombre": "Counter-Strike 2 Prime",
+    "categoria": "PC",
+    "precio": 18000,
+    "imagen": "https://placehold.co/300x360/19274E/f0f0f0?text=CS2+Prime",
+    "activo": true
+  },
+  {
+    "id": 4,
+    "nombre": "The Last of Us Part II",
+    "categoria": "Consola",
+    "precio": 58000,
+    "imagen": "https://placehold.co/300x360/19274E/f0f0f0?text=TLOU+Part+II",
+    "activo": true
+  },
+  {
+    "id": 5,
+    "nombre": "Elden Ring",
+    "categoria": "PC",
+    "precio": 52000,
+    "imagen": "https://placehold.co/300x360/19274E/f0f0f0?text=Elden+Ring",
+    "activo": true
+  },
+  {
+    "id": 6,
+    "nombre": "Marvel's Spider-Man 2",
+    "categoria": "Consola",
+    "precio": 68000,
+    "imagen": "https://placehold.co/300x360/19274E/f0f0f0?text=Spider-Man+2",
+    "activo": true
+  },
+  {
+    "id": 7,
+    "nombre": "Baldur's Gate 3",
+    "categoria": "PC",
+    "precio": 49000,
+    "imagen": "https://placehold.co/300x360/19274E/f0f0f0?text=Baldurs+Gate+3",
+    "activo": true
+  },
+  {
+    "id": 8,
+    "nombre": "Gran Turismo 7",
+    "categoria": "Consola",
+    "precio": 60000,
+    "imagen": "https://placehold.co/300x360/19274E/f0f0f0?text=Gran+Turismo+7",
+    "activo": true
+  },
+  {
+    "id": 9,
+    "nombre": "Red Dead Redemption 2",
+    "categoria": "PC",
+    "precio": 38000,
+    "imagen": "https://placehold.co/300x360/19274E/f0f0f0?text=RDR+2",
+    "activo": true
+  },
+  {
+    "id": 10,
+    "nombre": "Juego Inactivo Prueba",
+    "categoria": "Consola",
+    "precio": 10000,
+    "imagen": "https://placehold.co/300x360/19274E/f0f0f0?text=Inactivo",
+    "activo": false
+  }
+]

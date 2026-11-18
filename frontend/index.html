@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoGames - Bienvenida</title>
+
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="brand-container">
+            <img class="logo-header" src="assets/logo.png" alt="Logo AutoGames">
+            <div class="brand-info">
+                <h1>AutoGames</h1>
+                <span class="alumnos-tag">Desarrollado por: Mariano Sibello & Facundo Fiestas</span>
+            </div>
+        </div>
+
+        <nav class="nav-container">
+            <button type="button" id="btn-tema" class="nav-btn">Tema Claro</button>
+            <a href="http://localhost:3000/login" class="nav-btn">Panel Admin</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="bienvenida-box">
+            <h2>¡Bienvenido a AutoGames!</h2>
+            <p>Ingresá tu nombre para comenzar tu pedido de videojuegos de PC y Consola.</p>
+
+            <form id="form-bienvenida" class="form-bienvenida" novalidate>
+                <input 
+                    type="text" 
+                    id="input-nombre" 
+                    placeholder="Tu nombre..." 
+                    maxlength="30" 
+                    required
+                >
+                <span id="error-nombre" class="error-msg"></span>
+                <button type="submit" class="btn-primary">Continuar</button>
+            </form>
+        </section>
+    </main>
+
+    <script src="js/theme.js"></script>
+    <script src="js/bienvenida.js"></script>
+</body>
+</html>

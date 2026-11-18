@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoGames - Catálogo</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="brand-container">
+            <img class="logo-header" src="assets/logo.png" alt="Logo AutoGames">
+            <div class="brand-info">
+                <h1>AutoGames</h1>
+                <span class="alumnos-tag">Desarrollado por: Mariano Sibello & Facundo Fiestas</span>
+            </div>
+        </div>
+
+        <nav class="nav-container">
+            <button type="button" id="btn-tema" class="nav-btn">Tema Claro</button>
+            <a href="index.html" class="nav-btn">Salir / Cambiar Nombre</a>
+            <a href="carrito.html" class="nav-btn">Carrito (<span id="contador-carrito">0</span>)</a>
+        </nav>
+    </header>
+
+    <main class="catalogo-main">
+        <div class="catalogo-header">
+            <h2 id="saludo-cliente" class="saludo-cliente">Hola, Cliente</h2>
+
+            <div class="filtros-categoria">
+                <button type="button" class="btn-filtro activo" data-categoria="TODOS">Todos</button>
+                <button type="button" class="btn-filtro" data-categoria="PC">Juegos PC</button>
+                <button type="button" class="btn-filtro" data-categoria="Consola">Juegos Consola</button>
+            </div>
+        </div>
+
+        <section id="contenedor-productos" class="contenedor-productos">
+            <!-- Las tarjetas se renderizan desde productos.js -->
+        </section>
+
+        <div class="paginacion-container">
+            <button type="button" id="btn-anterior" class="btn-pagina">Anterior</button>
+            <span id="info-pagina">Página 1 de 1</span>
+            <button type="button" id="btn-siguiente" class="btn-pagina">Siguiente</button>
+        </div>
+    </main>
+
+    <script src="js/theme.js"></script>
+    <script src="js/productos.js"></script>
+</body>
+</html>
