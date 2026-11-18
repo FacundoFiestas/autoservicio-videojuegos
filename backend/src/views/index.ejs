@@ -1,0 +1,62 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+
+<main>
+    <!-- Juegos de PC -->
+    <section class="seccion-categoria">
+        <h3 class="titulo-categoria">Productos de PC</h3>
+        <div id="contenedor-pc" class="contenedor-productos">
+            
+            <% 
+                // Filtrar productos de PC desde el servidor
+                const productosPC = listaProductos.filter(p => p.tipo && p.tipo.toLowerCase().includes("pc"));
+            %>
+
+            <% if (productosPC.length > 0) { %>
+                <% productosPC.forEach(producto => { %>
+                    <div class="card-producto">
+                        <img class="card-img" src="<%= producto.imagen %>" alt="<%= producto.nombre %>">
+                        <span>ID: <%= producto.id %></span>
+                        <h4><%= producto.nombre %></h4> 
+                        <p>$ <%= producto.precio %></p>
+                        <p>Tipo: <%= producto.tipo %></p>
+                        <p>Estado: <%= producto.activo %></p>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No hay productos de PC cargados</p>
+            <% } %>
+
+        </div>
+    </section>
+
+    <!-- Juegos de Consola -->
+    <section class="seccion-categoria">
+        <h3 class="titulo-categoria">Productos de Consola</h3>
+        <div id="contenedor-consola" class="contenedor-productos">
+            
+            <% 
+                // Filtrar productos de Consola desde el servidor
+                const productosConsola = listaProductos.filter(p => p.tipo && p.tipo.toLowerCase().includes("consola"));
+            %>
+
+            <% if (productosConsola.length > 0) { %>
+                <% productosConsola.forEach(producto => { %>
+                    <div class="card-producto">
+                        <img class="card-img" src="<%= producto.imagen %>" alt="<%= producto.nombre %>">
+                        <span>ID: <%= producto.id %></span>
+                        <h4><%= producto.nombre %></h4> 
+                        <p>$ <%= producto.precio %></p>
+                        <p>Tipo: <%= producto.tipo %></p>
+                        <p>Estado: <%= producto.activo %></p>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No hay productos de Consola cargados</p>
+            <% } %>
+
+        </div>
+    </section>
+</main>
+
+<%- include("partials/footer.ejs") %>
