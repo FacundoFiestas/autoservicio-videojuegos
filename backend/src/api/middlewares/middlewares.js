@@ -42,3 +42,57 @@ export const validateProduct = (req, res, next) => {
 
     next();
 };
+
+export const validateProductUpdate = (req, res, next) => {
+    const { nombre, precio, imagen, tipo, activo } = req.body;
+
+    const camposEnviados = [nombre, precio, imagen, tipo, activo].some(
+        (valor) => valor !== undefined
+    );
+
+    if (!camposEnviados) {
+        return res.status(400).json({
+            success: false,
+            message: 'Debés enviar al menos un campo para actualizar'
+        });
+    }
+
+    if (nombre !== undefined) {
+        if (typeof nombre !== 'string' || nombre.trim().length < 2) {
+            return res.status(400).json({
+                success: false,
+                message: 'El nombre del producto debe tener al menos 2 caracteres'
+            });
+        }
+    }
+
+    if (precio !== undefined) {
+        const precioNum = Number(precio);
+        if (precio === null || precio === '' || Number.isNaN(precioNum) || precioNum <= 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'El precio debe ser un número mayor a 0'
+            });
+        }
+    }
+
+    if (imagen !== undefined) {
+        if (typeof imagen !== 'string' || imagen.trim() === '') {
+            return res.status(400).json({
+                success: false,
+                message: 'La imagen no puede estar vacía'
+            });
+        }
+    }
+
+    if (tipo !== undefined) {
+        if (typeof tipo !== 'string' || tipo.trim() === '') {
+            return res.status(400).json({
+                success: false,
+                message: 'El tipo de producto no puede estar vacío'
+            });
+        }
+    }
+
+    next();
+};

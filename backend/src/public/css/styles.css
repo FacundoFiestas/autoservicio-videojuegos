@@ -72,24 +72,24 @@ header{
 
 #contenedor-pc, 
 #contenedor-consola, 
-#cont-createProduct{
+.contProduct{
     display: flex;
     width: 70%;
     margin: auto;
-    padding: 15px;
     border-radius: 6px;
     border: 1px solid var(--white);
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 15px;
+    padding: 25px;
+    margin-bottom: 40px;
 }
 
 /* ---------------
     Estilos POST 
 ------------------ */
 
-#form-createProduct{
-    padding: 10px;
+.formProduct{
     border-radius: 6px;
     display: flex;
     flex-direction: column;
@@ -97,29 +97,30 @@ header{
     gap: 8px;
 }
 
-#form-createProduct label{
+.formProduct label{
     color: var(--white);
 }
-#form-createProduct input{
+.formProduct input{
     color: var(--black);
     border-radius: 6px;
     padding: 10px;
 }
-#form-createProduct select{
+.formProduct select{
     border-radius: 6px;
     padding: 10px;
 }
-#form-createProduct input[type=submit]{
+.formProduct input[type=submit]{
     background-color: var(--lightblue);
     font-weight: 700;
     color: var(--white)
 }
 
-#form-createProduct input[type=submit]:hover{
+.formProduct input[type=submit]:hover{
     background-color: var(--black);
     color: var(--white);
     cursor: pointer;
 }
+
 /* ---------------
     Tarjetas 
 ------------------ */

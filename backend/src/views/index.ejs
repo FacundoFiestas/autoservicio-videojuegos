@@ -14,14 +14,14 @@
 
             <% if (productosPC.length > 0) { %>
                 <% productosPC.forEach(producto => { %>
-                    <div class="card-producto">
+                    <article class="card-producto">
                         <img class="card-img" src="<%= producto.imagen %>" alt="<%= producto.nombre %>">
                         <span>ID: <%= producto.id %></span>
                         <h4><%= producto.nombre %></h4> 
                         <p>$ <%= producto.precio %></p>
                         <p>Tipo: <%= producto.tipo %></p>
-                        <p>Estado: <%= producto.activo %></p>
-                    </div>
+                        <p>Activo: <%= producto.activo %></p>
+                    </article>
                 <% }) %>
             <% } else { %>
                 <p>No hay productos de PC cargados</p>

@@ -51,3 +51,36 @@ export const vistaAgregar = (req, res) => {
         return res.status(500).send("Error al cargar el formulario");
     }
 };
+
+export const vistaObtener = (req, res) => {
+    try {
+        return res.render('get', {
+            title: "Obtener producto"
+        });
+    } catch (error) {
+        console.error("Error al cargar la vista de obtener:", error);
+        return res.status(500).send("Error al cargar el formulario");
+    }
+};
+
+export const vistaEliminar = (req, res) => {
+    try {
+        return res.render('delete', {
+            title: "Eliminar producto"
+        });
+    } catch (error) {
+        console.error("Error al cargar la vista de eliminar:", error);
+        return res.status(500).send("Error al cargar el formulario");
+    }
+};
+
+export const vistaModificar = (req, res) => {
+    try {
+        return res.render('put', {
+            title: "Modificar producto"
+        });
+    } catch (error) {
+        console.error("Error al cargar la vista de modificar:", error);
+        return res.status(500).send("Error al cargar el formulario");
+    }
+};
