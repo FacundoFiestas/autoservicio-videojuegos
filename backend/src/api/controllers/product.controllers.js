@@ -79,6 +79,8 @@ export const createProduct = async (req, res) => {
 
 ////////////////////////////////
 // Actualizar producto existente
+////////////////////////////////
+// Actualizar producto existente
 export const updateProduct = async (req, res) => {
     try {
         const { id } = req.params;
@@ -93,10 +95,10 @@ export const updateProduct = async (req, res) => {
         }
 
         await product.update({
-            nombre: nombre.trim(),
-            precio: Number(precio),
-            imagen: imagen !== undefined ? imagen : product.imagen,
-            tipo: tipo.trim(),
+            nombre: nombre !== undefined ? nombre.trim() : product.nombre,
+            precio: precio !== undefined ? Number(precio) : product.precio,
+            imagen: imagen !== undefined ? imagen.trim() : product.imagen,
+            tipo: tipo !== undefined ? tipo.trim() : product.tipo,
             activo: activo !== undefined ? Boolean(activo) : product.activo
         });
 
@@ -164,17 +166,17 @@ export const deleteProduct = async (req, res) => {
             });
         }
 
-        await product.update({ activo: false });
+        await product.destroy();
 
         return res.status(200).json({
             success: true,
-            message: 'Producto dado de baja con éxito',
+            message: 'Producto eliminado con éxito',
             data: product
         });
     } catch (error) {
         return res.status(500).json({
             success: false,
-            message: 'Error al dar de baja el producto',
+            message: 'Error al eliminar el producto',
             error: error.message
         });
     }

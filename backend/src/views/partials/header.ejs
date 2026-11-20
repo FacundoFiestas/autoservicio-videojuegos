@@ -1,10 +1,14 @@
 <body>
     <header>
-        <div class="logo-container">
-            <img class="logo-header" src="/assets/logo.png" alt="logo">
+        <div class="header-top">
+            <div class="logo-container">
+                <img class="logo-header" src="/assets/logo.png" alt="logo">
+            </div>
+
+            <button type="button" id="btn-menu" class="btn-menu">☰</button>
         </div>
 
-        <nav class="nav-container">
+        <nav class="nav-container" id="nav-menu">
             <a href="/dashboard/principal" class="nav-btn">Principal</a>
             <a href="/dashboard/agregar" class="nav-btn">Agregar</a>
             <a href="/dashboard/modificar" class="nav-btn">Modificar</a>
@@ -12,3 +16,4 @@
             <a href="/dashboard/eliminar" class="nav-btn">Eliminar</a>
         </nav>
     </header>
+    <script src="/js/header.js"></script>

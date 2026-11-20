@@ -3,6 +3,7 @@
 ======================*/
 
 import { Router } from 'express';
+
 import {
     getProducts,
     getProductById,
@@ -11,7 +12,12 @@ import {
     toggleProductStatus,
     deleteProduct
 } from '../controllers/product.controllers.js';
-import { validateId, validateProduct } from '../middlewares/middlewares.js';
+
+import { 
+    validateId, 
+    validateProduct, 
+    validateProductUpdate 
+} from '../middlewares/middlewares.js';
 
 const router = Router();
 
@@ -25,7 +31,7 @@ router.get('/:id', validateId, getProductById);
 router.post('/', validateProduct, createProduct);
 
 // PUT /api/productos/:id -> Modificar producto
-router.put('/:id', validateId, validateProduct, updateProduct);
+router.put('/:id', validateId, validateProductUpdate, updateProduct);
 
 // PATCH /api/productos/:id/estado -> Activar o desactivar producto
 router.patch('/:id/estado', validateId, toggleProductStatus);
