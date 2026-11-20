@@ -1,40 +1,55 @@
 <%- include("partials/head.ejs") %>
 <%- include("partials/header.ejs") %>
 <main>
-    <h2 class="titulo">Modificar producto</h2>
+    <h2 class="titulo"><img src="/assets/put.svg" alt="">Modificar producto</h2>
+    <h3 class="subtitulo">Ingrese la ID del producto para modificarlo</h3>
 
-    <section class="contProduct" id="cont-updateProduct">
-        <form class="formProduct" id="form-updateProduct">
+    <section class="contProduct" id="cont-buscarProducto">
+        <form class="formProduct" id="form-buscarProducto">
             <label for="prodId">ID del producto:</label>
             <input type="number" id="prodId" name="id" min="1" placeholder="Ej: 1" required>
 
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre">
-
-            <label for="precio">Precio:</label>
-            <input type="text" id="precio" name="precio" inputmode="decimal">
-
-            <label for="imagen">URL de imagen:</label>
-            <input type="text" id="imagen" name="imagen">
-
-            <label for="tipo">Categoría:</label>
-            <select id="tipo" name="tipo">
-                <option value="" selected>No modificar categoría</option>
-                <option value="PC">PC</option>
-                <option value="Consola">Consola</option>
-            </select>
-
-            <label for="activo">Estado:</label>
-            <select id="activo" name="activo">
-                <option value="" selected>No modificar estado</option>
-                <option value="true">Activo</option>
-                <option value="false">Inactivo</option>
-            </select>
-
-            <input type="submit" value="Guardar cambios">
+            <input type="submit" value="Buscar producto">
         </form>
 
         <div id="cont-mensaje"></div>
+    </section>
+
+    <!-- Cuadro flotante con el formulario para modificar -->
+    <section id="modal-editar" class="modal-overlay" hidden>
+        <div class="modal-contenido">
+            <button type="button" id="btn-cerrarModal">✕</button>
+            <h3>Editando producto (ID: <span id="modal-prodId"></span>)</h3>
+
+            <form class="formProduct" id="form-updateProduct">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Nuevo nombre">
+
+                <label for="precio">Precio:</label>
+                <input type="number" step="0.01" id="precio" name="precio" inputmode="decimal" placeholder="Nuevo precio">
+
+                <label for="imagen">URL de imagen:</label>
+                <input type="text" id="imagen" name="imagen" placeholder="Nueva imagen">
+
+                <label for="tipo">Categoría:</label>
+                <select id="tipo" name="tipo">
+                    <option value="">No modificar categoría</option>
+                    <option value="PC">PC</option>
+                    <option value="Consola">Consola</option>
+                </select>
+
+                <label for="activo">Estado:</label>
+                <select id="activo" name="activo">
+                    <option value="">No modificar estado</option>
+                    <option value="true">Activo</option>
+                    <option value="false">Inactivo</option>
+                </select>
+
+                <input type="submit" value="Guardar cambios">
+            </form>
+
+            <div id="cont-modalMensaje"></div>
+        </div>
     </section>
 
     <script src="/js/put.js"></script>

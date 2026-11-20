@@ -12,15 +12,16 @@ function limpiarMensajes() {
 }
 
 function renderizarProducto(producto) {
+    contResultado.style.display = "flex";
     contResultado.innerHTML = `
-        <article class="card-producto">
-            <img src="${producto.imagen}" alt="${producto.nombre}">
+        <img src="${producto.imagen}" alt="${producto.nombre}">
+        <div id="resultado-info">
             <span>ID: ${producto.id}</span>
             <h4>${producto.nombre}</h4>
             <p>Precio: $${producto.precio}</p>
             <p>Tipo: ${producto.tipo}</p>
             <p>Activo: ${producto.activo}</p>
-        </article>
+        </div>
     `;
 }
 
@@ -28,6 +29,8 @@ formGetProduct.addEventListener("submit", async (event) => {
     event.preventDefault();
     limpiarMensajes();
     contResultado.innerHTML = "";
+    
+    contResultado.style.display = "none";
 
     const id = document.getElementById("prodId").value.trim();
 

@@ -7,7 +7,6 @@
     font-family: 'Jost';
     font-weight: 500;
 }
-
 :root{
     --darkblue: #19274E;
     --lightblue: #2BAAC4;
@@ -18,12 +17,12 @@
 }
 
 /* ---------------
-    Estilos Generales 
+    Header y Estilos Generales 
 ------------------ */
 body{
     background-color: var(--darkblue);
 }
-header{
+header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,36 +30,54 @@ header{
     padding: 15px;
 }
 
-.logo-container{
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-container {
     padding-right: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.logo-header{
+
+.logo-header {
     max-width: 70px;
 }
 
-.nav-container{
+.btn-menu {
+    display: none;
+    background-color: var(--darkblue);
+    color: var(--white);
+    border: none;
+    border-radius: 3px;
+    padding: 8px 12px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.nav-container {
     display: flex;
     gap: 10px;
     padding: 10px;
 }
-.nav-btn{
+
+.nav-btn {
     background-color: var(--darkblue);
-    padding: 8px;
-    padding-left: 12px;
-    padding-right: 12px;
-    border-radius: 3px; 
+    padding: 8px 12px;
+    border-radius: 3px;
     color: var(--white);
+    text-decoration: none;
 }
-.nav-btn:hover{
+
+.nav-btn:hover {
     background-color: var(--white);
     color: var(--black);
     outline: 2px solid var(--black);
 }
-
-.titulo, .titulo-categoria{
+.titulo, .subtitulo, .titulo-categoria{
     display: flex;
     justify-content: flex-start;
     width: 70%;
@@ -68,57 +85,170 @@ header{
     color: var(--white);
     font-weight: 600;
     font-size: 2rem;
+    margin-bottom: 10px;
 }
-
+.titulo img{
+    margin-right: 10px;
+}
+.subtitulo{
+    font-size: 1rem;
+    margin: auto;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
 #contenedor-pc, 
 #contenedor-consola, 
 .contProduct{
     display: flex;
     width: 70%;
     margin: auto;
-    border-radius: 6px;
+    border-radius: 5px;
     border: 1px solid var(--white);
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 15px;
     padding: 25px;
     margin-bottom: 40px;
+
+    flex-wrap: wrap;
 }
 
+
 /* ---------------
-    Estilos POST 
+    Estilos de formulario en CRUD
 ------------------ */
 
 .formProduct{
-    border-radius: 6px;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     width: 100%;
     gap: 8px;
 }
-
 .formProduct label{
     color: var(--white);
 }
 .formProduct input{
     color: var(--black);
-    border-radius: 6px;
+    border-radius: 5px;
     padding: 10px;
 }
 .formProduct select{
-    border-radius: 6px;
+    border-radius: 5px;
     padding: 10px;
 }
 .formProduct input[type=submit]{
     background-color: var(--lightblue);
     font-weight: 700;
-    color: var(--white)
+    color: var(--white);
+    margin-top: 10px;
+    padding: 15px;
 }
-
 .formProduct input[type=submit]:hover{
     background-color: var(--black);
     color: var(--white);
     cursor: pointer;
+}
+
+/* ---------------------
+    Estilos de Product Card en GET
+    ------------------- */
+#cont-resultado{
+    display: none;
+    width: 100%;
+    background-color: var(--lightblue);
+    padding: 25px;
+    border-radius: 5px;
+    gap: 25px;
+    border: 1px solid var(--white);
+}
+#cont-resultado img{
+    max-width: 350px;
+    min-width: 100px;
+    max-height: 350px;
+    min-height: 100px;
+    border-radius: 5px;
+}
+#resultado-info{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+#resultado-info span,
+#resultado-info h4,
+#resultado-info p{
+    color: var(--white);
+    font-size: 1.4rem;
+}
+#resultado-info h4{
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+/* ----------------------
+    Estilos de Cuadro Flotante PUT y Cuadro Flotante DELETE
+    ------------------- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal-overlay[hidden] {
+    display: none;
+}
+.modal-contenido {
+    position: relative;
+    background-color: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 450px;
+    width: 90%;
+    max-height: 90vh;
+    border: 3px solid var(--lightblue);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow: hidden;
+}
+#btn-cerrarModal{
+    background-color: var(--darkblue);
+    color: var(--white);
+    margin-bottom: 10px;
+    height: 40px;
+    width: 40px;
+    border-radius: 500px;
+}
+#btn-cerrarModal:hover{
+    background-color: var(--lightblue);
+    color: var(--black);
+    cursor: pointer;
+}
+#btn-confirmarEliminar,
+#btn-cancelarEliminar{
+    background-color: var(--lightblue);
+    padding: 10px;
+    border-radius: 5px;
+}
+#btn-confirmarEliminar:hover,
+#btn-cancelarEliminar:hover{
+    background-color: var(--darkblue);
+    color: var(--white);
+    cursor: pointer;
+}
+.modal-contenido label{
+    color: var(--black);
+}
+.modal-contenido input,
+.modal-contenido select{
+    border: 1px solid var(--black);
+}
+#cont-modalMensaje .mensaje{
+    margin-top: 10px;
+    color: var(--black);
 }
 
 /* ---------------
@@ -126,27 +256,26 @@ header{
 ------------------ */
 .card-producto {
     width: 170px;
-    border-radius: 6px;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     align-items: left;
-    justify-content: space-between;
     background-color: var(--lightblue);
     padding: 15px;
+    flex: 1 1 180px; 
+    max-width: 260px;
 }
-
 .card-img{
     width: 100%;
-    border-radius: 6px;
+    border-radius: 5px;
     margin-bottom: 10px;
 }
-
 .card-producto h4{
     color: var(--white);
     font-weight: 800;
 }
 .card-producto span{
-    border-radius: 6px;
+    border-radius: 5px;
     font-weight: 400;
     color: var(--white);
 }
@@ -154,11 +283,83 @@ header{
     color: var(--white);
 }
 
-
 /* ---------------
     Mensajes y errores 
 ------------------ */
 
 .mensaje{
     color: var(--white);
+}
+
+/* -------------------
+    RESPONSIVE: Header
+----------------------*/
+@media (max-width: 700px){
+    header{
+        flex-direction: column;
+    }
+    .header-top{
+        justify-content: space-between;
+        width: 100%;
+    }
+    .btn-menu{
+        display: block;
+    }
+    .nav-container{
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+        padding-top: 15px;
+    }
+    .nav-btn {
+        text-align: center;
+        width: 100%;
+    }
+}
+/* -------------------
+    RESPONSIVE: Principal y Formularios CRUD
+----------------------*/
+@media (max-width: 500px){
+    /* Tarjetas */
+    .card-producto {
+        width: 100%;
+    }
+    .card-producto h4{
+        font-size: 1.5rem;
+    }
+    .card-producto span,
+    .card-producto p{
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 850px){
+    /* Generales */
+    #contenedor-pc, 
+    #contenedor-consola, 
+    .contProduct{
+        width: 90%;
+        justify-content: center;
+    }
+    .titulo, .titulo-categoria{
+        width: 90%;
+        font-size: 1.5rem;
+    }
+    .subtitulo{
+        width: 90%;
+        font-size: 0.8rem;
+    }
+    /* Tarjeta de GET */
+    #cont-resultado{
+        flex-direction: column;
+    }
+    #resultado-info span,
+    #resultado-info h4,
+    #resultado-info p{
+        font-size: 1.2rem;
+    }
+    #resultado-info h4{
+        font-size: 1.7rem;
+    }
 }
