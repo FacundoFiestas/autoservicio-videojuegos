@@ -53,20 +53,21 @@ export const getProductById = async (req, res) => {
 // Crear producto nuevo
 export const createProduct = async (req, res) => {
     try {
-        const { nombre, precio, imagen, tipo, activo } = req.body;
+        const { nombre, precio, tipo } = req.body;
 
-        const newProduct = await Product.create({
+        const rutaImagen = `/uploads/productos/${req.file.filename}`;
+
+        const nuevoProducto = await Product.create({
             nombre: nombre.trim(),
             precio: Number(precio),
-            imagen: imagen || null,
             tipo: tipo.trim(),
-            activo: activo !== undefined ? Boolean(activo) : true
+            imagen: rutaImagen
         });
 
         return res.status(201).json({
             success: true,
             message: 'Producto creado con éxito',
-            data: newProduct
+            data: nuevoProducto
         });
     } catch (error) {
         return res.status(500).json({
@@ -77,8 +78,6 @@ export const createProduct = async (req, res) => {
     }
 };
 
-////////////////////////////////
-// Actualizar producto existente
 ////////////////////////////////
 // Actualizar producto existente
 export const updateProduct = async (req, res) => {
@@ -153,7 +152,7 @@ export const toggleProductStatus = async (req, res) => {
 };
 
 ////////////////////////////////
-// Baja lógica mediante DELETE
+// Borrar definitivamente el producto DELETE
 export const deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;

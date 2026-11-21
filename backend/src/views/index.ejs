@@ -2,31 +2,48 @@
 <%- include("partials/header.ejs") %>
 
 <main>
+    <div id="cont-mensaje"></div>
+
+    <div id="cont-descargar-ventas">
+        <button type="button" id="btn-descargar-ventas">Descargar ventas (Excel)</button>
+    </div>
+
     <!-- Juegos de PC -->
     <section class="seccion-categoria">
         <h3 class="titulo-categoria">Productos de PC</h3>
         <div id="contenedor-pc" class="contenedor-productos">
-            
-            <% 
-                // Filtrar productos de PC desde el servidor
-                const productosPC = listaProductos.filter(p => p.tipo && p.tipo.toLowerCase().includes("pc"));
-            %>
+            <% const productosPC = listaProductos.filter(p => p.tipo && p.tipo.toLowerCase().includes("pc")); %>
 
             <% if (productosPC.length > 0) { %>
                 <% productosPC.forEach(producto => { %>
-                    <article class="card-producto">
+                    <% const estaActivo = Boolean(producto.activo); %>
+                    <article class="card-producto" data-id="<%= producto.id %>">
                         <img class="card-img" src="<%= producto.imagen %>" alt="<%= producto.nombre %>">
+                        <div class="card-acciones">
+                            <a href="/dashboard/modificar?id=<%= producto.id %>" class="btn-modificar-card">
+                                Modificar
+                            </a>
+
+                            <button
+                                type="button"
+                                class="btn-estado-card"
+                                data-id="<%= producto.id %>"
+                                data-nombre="<%= producto.nombre %>"
+                                data-activo="<%= estaActivo %>"
+                            >
+                                <%= estaActivo ? "Dar de baja" : "Activar" %>
+                            </button>
+                        </div>
                         <span>ID: <%= producto.id %></span>
-                        <h4><%= producto.nombre %></h4> 
+                        <h4><%= producto.nombre %></h4>
                         <p>$ <%= producto.precio %></p>
                         <p>Tipo: <%= producto.tipo %></p>
-                        <p>Activo: <%= producto.activo %></p>
+                        <p class="estado-producto">Activo: <%= estaActivo %></p>
                     </article>
                 <% }) %>
             <% } else { %>
                 <p>No hay productos de PC cargados</p>
             <% } %>
-
         </div>
     </section>
 
@@ -34,29 +51,58 @@
     <section class="seccion-categoria">
         <h3 class="titulo-categoria">Productos de Consola</h3>
         <div id="contenedor-consola" class="contenedor-productos">
-            
-            <% 
-                // Filtrar productos de Consola desde el servidor
-                const productosConsola = listaProductos.filter(p => p.tipo && p.tipo.toLowerCase().includes("consola"));
-            %>
+            <% const productosConsola = listaProductos.filter(p => p.tipo && p.tipo.toLowerCase().includes("consola")); %>
 
             <% if (productosConsola.length > 0) { %>
                 <% productosConsola.forEach(producto => { %>
-                    <div class="card-producto">
+                    <% const estaActivo = Boolean(producto.activo); %>
+                    <article class="card-producto" data-id="<%= producto.id %>">
                         <img class="card-img" src="<%= producto.imagen %>" alt="<%= producto.nombre %>">
+                        <div class="card-acciones">
+                            <a href="/dashboard/modificar?id=<%= producto.id %>" class="btn-modificar-card">
+                                Modificar
+                            </a>
+
+                            <button
+                                type="button"
+                                class="btn-estado-card"
+                                data-id="<%= producto.id %>"
+                                data-nombre="<%= producto.nombre %>"
+                                data-activo="<%= estaActivo %>"
+                            >
+                                <%= estaActivo ? "Dar de baja" : "Activar" %>
+                            </button>
+                        </div>
                         <span>ID: <%= producto.id %></span>
-                        <h4><%= producto.nombre %></h4> 
+                        <h4><%= producto.nombre %></h4>
                         <p>$ <%= producto.precio %></p>
                         <p>Tipo: <%= producto.tipo %></p>
-                        <p>Estado: <%= producto.activo %></p>
-                    </div>
+                        <p class="estado-producto">Activo: <%= estaActivo %></p>
+
+                    </article>
                 <% }) %>
             <% } else { %>
                 <p>No hay productos de Consola cargados</p>
             <% } %>
-
         </div>
     </section>
+
+    <!-- Modal de confirmación para baja o reactivación lógica -->
+    <section id="modal-confirmar" class="modal-overlay" hidden>
+        <div class="modal-contenido">
+            <p>
+                ¿<span id="confirm-accionTexto">Dar de baja</span> el producto
+                <span id="confirm-prodNombre"></span>
+                (ID: <span id="confirm-prodId"></span>)?
+            </p>
+            <div class="modal-acciones">
+                <button type="button" id="btn-confirmarEliminar">Sí, confirmar</button>
+                <button type="button" id="btn-cancelarEliminar">Cancelar</button>
+            </div>
+        </div>
+    </section>
+
+    <script src="/js/dashboard-delete.js"></script>
 </main>
 
 <%- include("partials/footer.ejs") %>

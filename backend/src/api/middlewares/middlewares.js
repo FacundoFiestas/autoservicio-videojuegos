@@ -2,6 +2,21 @@
     Middlewares de validación
 ============================*/
 
+import multer from "multer";
+import path from "path";
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "src/public/uploads/productos");
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        cb(null, `${Date.now()}${ext}`);
+    }
+});
+
+export const uploadImagen = multer({ storage });
+
 export const validateId = (req, res, next) => {
     const { id } = req.params;
 
@@ -37,6 +52,13 @@ export const validateProduct = (req, res, next) => {
         return res.status(400).json({
             success: false,
             message: 'El tipo de producto es obligatorio (ej: PC o Consola)'
+        });
+    }
+    
+    if (!req.file) {
+        return res.status(400).json({
+            success: false,
+            message: 'La imagen del producto es obligatoria'
         });
     }
 
@@ -95,4 +117,4 @@ export const validateProductUpdate = (req, res, next) => {
     }
 
     next();
-};
+}
