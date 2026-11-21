@@ -16,7 +16,8 @@ import {
 import { 
     validateId, 
     validateProduct, 
-    validateProductUpdate 
+    validateProductUpdate,
+    uploadImagen
 } from '../middlewares/middlewares.js';
 
 const router = Router();
@@ -28,7 +29,7 @@ router.get('/', getProducts);
 router.get('/:id', validateId, getProductById);
 
 // POST /api/productos -> Crear producto nuevo
-router.post('/', validateProduct, createProduct);
+router.post('/', uploadImagen.single('imagen'), validateProduct, createProduct);
 
 // PUT /api/productos/:id -> Modificar producto
 router.put('/:id', validateId, validateProductUpdate, updateProduct);

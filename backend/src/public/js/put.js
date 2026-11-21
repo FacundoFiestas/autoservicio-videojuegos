@@ -20,17 +20,13 @@ let idProductoActual = null;
 let productoActual = null;
 
 function mostrarMensaje(contenedor, tipo, mensaje) {
-    contenedor.innerHTML = `
-        <p class="mensaje ${tipo}">${mensaje}</p>
-    `;
+    contenedor.innerHTML = `<p class="mensaje ${tipo}">${mensaje}</p>`;
 }
 
 function mostrarListaErrores(contenedor, array) {
-    let htmlErrores = "";
-    array.forEach(error => {
-        htmlErrores += `<p class="mensaje error">${error}</p>`;
-    });
-    contenedor.innerHTML = htmlErrores;
+    contenedor.innerHTML = array
+        .map(error => `<p class="mensaje error">${error}</p>`)
+        .join("");
 }
 
 function limpiarMensajes(contenedor) {
@@ -45,66 +41,68 @@ function cerrarModal() {
     modalEditar.hidden = true;
 }
 
-// Cerrar modal con X
 btnCerrarModal.addEventListener("click", cerrarModal);
 
-// Cerrar modal al hacer clic afuera
 modalEditar.addEventListener("click", (event) => {
     if (event.target === modalEditar) {
         cerrarModal();
     }
 });
 
-// Cerrar modal con Esc
 document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !modalEditar.hidden) {
         cerrarModal();
     }
 });
 
-// Buscar producto por ID y abrir cuadro flotante
-formBuscarProducto.addEventListener("submit", async (event) => {
-    event.preventDefault();
+function cargarDatosEnModal(id, prod) {
+    idProductoActual = id;
+    productoActual = prod;
+
+    modalProdId.textContent = id;
+    inputNombre.value = prod.nombre ?? "";
+    inputPrecio.value = prod.precio ?? "";
+    inputImagen.value = prod.imagen ?? "";
+    selectTipo.value = prod.tipo ?? "";
+    selectActivo.value = prod.activo !== undefined ? String(Boolean(prod.activo)) : "";
+
+    abrirModal();
+}
+
+async function buscarYabrirModal(id) {
     limpiarMensajes(contMensaje);
     limpiarMensajes(contModalMensaje);
 
-    const id = inputId.value ? inputId.value.trim() : "";
-
-    if (!id || !Number.isInteger(Number(id)) || Number(id) <= 0) {
+    const idLimpio = id ? String(id).trim() : "";
+    if (!idLimpio || !Number.isInteger(Number(idLimpio)) || Number(idLimpio) <= 0) {
         return mostrarMensaje(contMensaje, "error", "El ID del producto no es válido");
     }
 
     try {
-        const response = await fetch(`${urlBase}/api/productos/${id}`);
+        const response = await fetch(`${urlBase}/api/productos/${idLimpio}`);
         const data = await response.json();
 
         if (!response.ok) {
             return mostrarMensaje(
                 contMensaje,
                 "error",
-                data.message || `No se encontró ningún producto con ID ${id}`
+                data.message || `No se encontró ningún producto con ID ${idLimpio}`
             );
         }
 
         const prod = data.data || data.producto || data;
-        idProductoActual = id;
-        productoActual = prod;
-
-        modalProdId.textContent = id;
-        inputNombre.value = prod.nombre ?? "";
-        inputPrecio.value = prod.precio ?? "";
-        inputImagen.value = prod.imagen ?? "";
-        selectTipo.value = prod.tipo ?? "";
-        selectActivo.value = prod.activo !== undefined ? String(Boolean(prod.activo)) : "";
-
-        abrirModal();
+        cargarDatosEnModal(idLimpio, prod);
     } catch (error) {
         console.error("Error al buscar producto:", error);
         mostrarMensaje(contMensaje, "error", "Error de conexión con el servidor");
     }
+}
+
+formBuscarProducto.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await buscarYabrirModal(inputId.value);
 });
 
-// Actualizar datos del producto desde el cuadro flotante
 formUpdateProduct.addEventListener("submit", async (event) => {
     event.preventDefault();
     limpiarMensajes(contModalMensaje);
@@ -113,16 +111,14 @@ formUpdateProduct.addEventListener("submit", async (event) => {
         return mostrarMensaje(contModalMensaje, "error", "No hay un ID de producto seleccionado");
     }
 
-    const formData = new FormData(event.target);
-    const rawObj = Object.fromEntries(formData.entries());
-
+    const rawObj = Object.fromEntries(new FormData(event.target).entries());
     const errores = [];
     const payload = {};
 
-    const nombreLimpio = rawObj.nombre ? rawObj.nombre.trim() : "";
-    if (nombreLimpio !== "") {
-        if (!productoActual || nombreLimpio !== String(productoActual.nombre)) {
-            payload.nombre = nombreLimpio;
+    for (const campo of ["nombre", "imagen", "tipo"]) {
+        const valorLimpio = rawObj[campo] ? rawObj[campo].trim() : "";
+        if (valorLimpio !== "" && (!productoActual || valorLimpio !== String(productoActual[campo]))) {
+            payload[campo] = valorLimpio;
         }
     }
 
@@ -136,20 +132,6 @@ formUpdateProduct.addEventListener("submit", async (event) => {
         }
     }
 
-    const imagenLimpia = rawObj.imagen ? rawObj.imagen.trim() : "";
-    if (imagenLimpia !== "") {
-        if (!productoActual || imagenLimpia !== String(productoActual.imagen)) {
-            payload.imagen = imagenLimpia;
-        }
-    }
-
-    const tipoLimpio = rawObj.tipo ? rawObj.tipo.trim() : "";
-    if (tipoLimpio !== "") {
-        if (!productoActual || tipoLimpio !== String(productoActual.tipo)) {
-            payload.tipo = tipoLimpio;
-        }
-    }
-
     if (rawObj.activo === "true" || rawObj.activo === "false") {
         const nuevoActivo = rawObj.activo === "true";
         if (!productoActual || nuevoActivo !== Boolean(productoActual.activo)) {
@@ -158,9 +140,7 @@ formUpdateProduct.addEventListener("submit", async (event) => {
     }
 
     const camposEditables = ["nombre", "precio", "imagen", "tipo", "activo"];
-    const tieneAlgunCampo = camposEditables.some((campo) => campo in payload);
-
-    if (!tieneAlgunCampo) {
+    if (!camposEditables.some((campo) => campo in payload)) {
         errores.push("Modifique al menos un campo antes de guardar");
     }
 
@@ -198,3 +178,10 @@ formUpdateProduct.addEventListener("submit", async (event) => {
         mostrarMensaje(contModalMensaje, "error", "Error de conexión con el servidor");
     }
 });
+
+const params = new URLSearchParams(window.location.search);
+const idDesdeUrl = params.get("id");
+if (idDesdeUrl) {
+    inputId.value = idDesdeUrl;
+    buscarYabrirModal(idDesdeUrl);
+}

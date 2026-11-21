@@ -25,7 +25,7 @@ body{
 header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     background-color: var(--white);
     padding: 15px;
 }
@@ -45,6 +45,12 @@ header {
 
 .logo-header {
     max-width: 70px;
+    margin-right: 15px;
+}
+
+.alumnos-tag {
+    font-size: 1rem;
+    opacity: 0.85;
 }
 
 .btn-menu {
@@ -77,6 +83,28 @@ header {
     color: var(--black);
     outline: 2px solid var(--black);
 }
+
+#cont-descargar-ventas{
+    margin: 30px auto;
+    width: 70%;
+}
+#btn-descargar-ventas{
+    padding: 12px;
+    padding-right: 16px;
+    padding-left: 16px;
+    background-color: var(--lightblue);
+    border-radius: 5px;
+    border: 1px solid var(--white);
+    color: var(--white);
+    font-weight: 600;
+    font-size: 1rem;
+}
+#btn-descargar-ventas:hover{
+    background-color: var(--white);
+    border: 1px solid var(--lightblue);
+    cursor: pointer;
+    color: var(--black);
+}
 .titulo, .subtitulo, .titulo-categoria{
     display: flex;
     justify-content: flex-start;
@@ -105,7 +133,7 @@ header {
     border-radius: 5px;
     border: 1px solid var(--white);
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 15px;
     padding: 25px;
     margin-bottom: 40px;
@@ -147,6 +175,10 @@ header {
 .formProduct input[type=submit]:hover{
     background-color: var(--black);
     color: var(--white);
+    cursor: pointer;
+}
+.formProduct input[type=file]{
+    background-color: var(--white);
     cursor: pointer;
 }
 
@@ -262,8 +294,8 @@ header {
     align-items: left;
     background-color: var(--lightblue);
     padding: 15px;
-    flex: 1 1 180px; 
-    max-width: 260px;
+    flex: 1 1 180px;
+    max-width: 220px;
 }
 .card-img{
     width: 100%;
@@ -283,6 +315,32 @@ header {
     color: var(--white);
 }
 
+.card-acciones{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    gap: 5px;
+}
+
+.btn-modificar-card,
+.btn-estado-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: var(--white);
+    background-color: var(--darkblue);
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+.btn-modificar-card:hover,
+.btn-estado-card:hover{
+    background-color: var(--white);
+    color: var(--black);
+}
+
 /* ---------------
     Mensajes y errores 
 ------------------ */
@@ -290,17 +348,28 @@ header {
 .mensaje{
     color: var(--white);
 }
+#cont-mensaje{
+    display: none;
+    background-color: var(--black);
+    padding: 15px;
+    justify-content: center;
+    font-size: 1.1rem;
+}
 
 /* -------------------
     RESPONSIVE: Header
 ----------------------*/
-@media (max-width: 700px){
+@media (max-width: 800px){
     header{
         flex-direction: column;
     }
     .header-top{
         justify-content: space-between;
         width: 100%;
+    }
+    .alumnos-tag {
+        font-size: 0.8rem;
+        
     }
     .btn-menu{
         display: block;
@@ -324,6 +393,8 @@ header {
     /* Tarjetas */
     .card-producto {
         width: 100%;
+        min-width: 220px;
+        max-width: 340px;
     }
     .card-producto h4{
         font-size: 1.5rem;
@@ -336,15 +407,33 @@ header {
 
 @media (max-width: 850px){
     /* Generales */
+    #cont-descargar-ventas{
+        margin: 30px auto;
+        width: 90%;
+        justify-content: center;
+    }
+    #btn-descargar-ventas{
+        width: 100%;
+    }
+    #btn-descargar-ventas:hover{
+        background-color: var(--lightblue);
+        border: 1px solid var(--white);
+        cursor: pointer;
+        color: var(--white);
+    }
     #contenedor-pc, 
     #contenedor-consola, 
     .contProduct{
         width: 90%;
         justify-content: center;
+        padding: 0;
+        border: none;
     }
     .titulo, .titulo-categoria{
         width: 90%;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+        justify-content: center;
+        margin-bottom: 20px;
     }
     .subtitulo{
         width: 90%;

@@ -1,22 +1,32 @@
 const urlBase = "http://localhost:3000";
+const urlDashboard = "/dashboard/principal";
+
 const contProductos = document.getElementById("cont-createProduct");
 const formCreateProduct = document.getElementById("form-createProduct");
+const inputImagen = document.getElementById("prodImagen");
 
-
-function validarFormulario(data) {
+function validarFormulario(formData) {
     const errores = [];
 
-    if (!data.nombre || !data.precio || !data.imagen || !data.tipo) {
+    const nombre = (formData.get("nombre") || "").toString().trim();
+    const tipo = (formData.get("tipo") || "").toString().trim();
+    const precio = Number(formData.get("precio"));
+    const archivo = formData.get("imagen");
+
+    if (!nombre || !tipo || Number.isNaN(precio) || !archivo || archivo.size === 0) {
         errores.push("Hay campos incompletos");
     }
 
-    if (data.precio < 0) {
+    if (precio <= 0) {
         errores.push("El precio no es válido");
+    }
+
+    if (archivo && archivo.size > 0 && !archivo.type.startsWith("image/")) {
+        errores.push("El archivo seleccionado debe ser una imagen");
     }
 
     return errores;
 }
-
 
 function mostrarMensaje(tipo, mensaje) {
     contProductos.innerHTML = `
@@ -25,42 +35,28 @@ function mostrarMensaje(tipo, mensaje) {
 }
 
 function mostrarListaErrores(array) {
-    let htmlErrores = "";
-    array.forEach(error => {
-        htmlErrores += `<p class="mensaje">${error}</p>`
-    });
-
-    contProductos.innerHTML = htmlErrores;
+    contProductos.innerHTML = array
+        .map(error => `<p class="mensaje error">${error}</p>`)
+        .join("");
 }
 
-
 formCreateProduct.addEventListener("submit", async event => {
-    
     event.preventDefault();
 
     const formData = new FormData(event.target);
+    const nombreLimpio = (formData.get("nombre") || "").toString().trim();
+    formData.set("nombre", nombreLimpio);
 
-    const formObj = Object.fromEntries(formData.entries());
-    
-    formObj.precio = Number(formObj.precio);
-    formObj.nombre = formObj.nombre.trim();
-    
-    const errores = validarFormulario(formObj);
-
+    const errores = validarFormulario(formData);
     if (errores.length > 0) {
         console.error(errores);
-        return mostrarListaErrores(errores)
-    };
-    
-    console.log(JSON.stringify(formObj));
+        return mostrarListaErrores(errores);
+    }
 
     try {
         const response = await fetch(`${urlBase}/api/productos`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formObj)
+            body: formData
         });
 
         const data = await response.json();
@@ -69,16 +65,12 @@ formCreateProduct.addEventListener("submit", async event => {
             if (data.listaErrores) {
                 return mostrarListaErrores(data.listaErrores);
             }
-
-            return mostrarMensaje("error", data.message);
+            return mostrarMensaje("error", data.message || "No se pudo crear el producto");
         }
 
-        let mensaje = `${data.message} (ID ${data.data.id})`;
-        console.log(data);
-        mostrarMensaje("exito", mensaje);
-
+        window.location.href = urlDashboard;
     } catch (error) {
-        console.error("Error al obtener productos: ", error);
-        return mostrarMensaje("error", "Error de conexion con el servidor");
+        console.error("Error al crear producto:", error);
+        return mostrarMensaje("error", "Error de conexión con el servidor");
     }
 });
