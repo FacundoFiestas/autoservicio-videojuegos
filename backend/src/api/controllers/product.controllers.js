@@ -4,6 +4,10 @@
 
 import Product from '../models/product.models.js';
 
+import fs from 'fs/promises';
+import path from 'path';
+import { __dirname, join } from '../utils/index.js';
+
 ////////////////////////////////
 // Obtener todos los productos
 export const getProducts = async (req, res) => {
@@ -93,12 +97,18 @@ export const updateProduct = async (req, res) => {
             });
         }
 
+        const nuevaRutaImagen = req.file
+            ? `/uploads/productos/${req.file.filename}`
+            : product.imagen;
+
         await product.update({
-            nombre: nombre !== undefined ? nombre.trim() : product.nombre,
+            nombre: nombre !== undefined ? String(nombre).trim() : product.nombre,
             precio: precio !== undefined ? Number(precio) : product.precio,
-            imagen: imagen !== undefined ? imagen.trim() : product.imagen,
-            tipo: tipo !== undefined ? tipo.trim() : product.tipo,
-            activo: activo !== undefined ? Boolean(activo) : product.activo
+            imagen: nuevaRutaImagen,
+            tipo: tipo !== undefined ? String(tipo).trim() : product.tipo,
+            activo: activo !== undefined
+                ? (typeof activo === "string" ? activo === "true" : Boolean(activo))
+                : product.activo
         });
 
         return res.status(200).json({
@@ -156,8 +166,8 @@ export const toggleProductStatus = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        const product = await Product.findByPk(id);
 
+        const product = await Product.findByPk(id);
         if (!product) {
             return res.status(404).json({
                 success: false,
@@ -165,12 +175,29 @@ export const deleteProduct = async (req, res) => {
             });
         }
 
+        const rutaImagen = product.imagen;
+
         await product.destroy();
+
+        if (rutaImagen && typeof rutaImagen === 'string' && rutaImagen.startsWith('/uploads/productos/')) {
+            const nombreArchivo = path.basename(rutaImagen);
+            const carpetaUploads = path.resolve(join(__dirname, 'src/public/uploads/productos'));
+            const rutaCompleta = path.resolve(carpetaUploads, nombreArchivo);
+
+            if (rutaCompleta.startsWith(carpetaUploads + path.sep)) {
+                try {
+                    await fs.unlink(rutaCompleta);
+                } catch (err) {
+                    if (err.code !== 'ENOENT') {
+                        console.error('No se pudo eliminar el archivo de imagen:', err);
+                    }
+                }
+            }
+        }
 
         return res.status(200).json({
             success: true,
-            message: 'Producto eliminado con éxito',
-            data: product
+            message: 'Producto eliminado correctamente'
         });
     } catch (error) {
         return res.status(500).json({
