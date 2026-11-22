@@ -2,12 +2,16 @@
     Middlewares de validación
 ============================*/
 
+import fs from "fs";
 import multer from "multer";
 import path from "path";
 
+const uploadDir = path.resolve("src/public/uploads/productos");
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "src/public/uploads/productos");
+        fs.mkdirSync(uploadDir, { recursive: true });
+        cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname).toLowerCase();
@@ -68,7 +72,7 @@ export const validateProduct = (req, res, next) => {
 export const validateProductUpdate = (req, res, next) => {
     const { nombre, precio, imagen, tipo, activo } = req.body;
 
-    const camposEnviados = [nombre, precio, imagen, tipo, activo].some(
+    const camposEnviados = [nombre, precio, imagen, tipo, activo, req.file].some(
         (valor) => valor !== undefined
     );
 
@@ -117,4 +121,4 @@ export const validateProductUpdate = (req, res, next) => {
     }
 
     next();
-}
+};

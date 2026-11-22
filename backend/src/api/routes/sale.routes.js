@@ -3,7 +3,7 @@
 ======================*/
 
 import { Router } from 'express';
-import { getSales, createSale } from '../controllers/sale.controllers.js';
+import { getSales, createSale, exportSalesExcel } from '../controllers/sale.controllers.js';
 
 const router = Router();
 
@@ -12,5 +12,8 @@ router.get('/', getSales);
 
 // POST /api/ventas -> Registrar nueva compra
 router.post('/', createSale);
+
+//GET -> EXCEL
+router.get('/excel', exportSalesExcel);
 
 export default router;

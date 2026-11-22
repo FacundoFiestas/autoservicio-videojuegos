@@ -104,3 +104,11 @@ btnConfirmarEliminar.addEventListener("click", async () => {
         return mostrarMensaje("error", "Error de conexión con el servidor");
     }
 });
+
+const btnDescargarVentas = document.getElementById("btn-descargar-ventas");
+
+if (btnDescargarVentas) {
+    btnDescargarVentas.addEventListener("click", () => {
+        window.location.href = "/api/ventas/excel";
+    });
+}
