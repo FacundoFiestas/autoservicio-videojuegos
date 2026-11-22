@@ -62,7 +62,7 @@ function cargarDatosEnModal(id, prod) {
     modalProdId.textContent = id;
     inputNombre.value = prod.nombre ?? "";
     inputPrecio.value = prod.precio ?? "";
-    inputImagen.value = prod.imagen ?? "";
+    inputImagen.value = "";
     selectTipo.value = prod.tipo ?? "";
     selectActivo.value = prod.activo !== undefined ? String(Boolean(prod.activo)) : "";
 
@@ -111,36 +111,48 @@ formUpdateProduct.addEventListener("submit", async (event) => {
         return mostrarMensaje(contModalMensaje, "error", "No hay un ID de producto seleccionado");
     }
 
-    const rawObj = Object.fromEntries(new FormData(event.target).entries());
     const errores = [];
-    const payload = {};
+    const formData = new FormData();
+    let huboCambios = false;
 
-    for (const campo of ["nombre", "imagen", "tipo"]) {
-        const valorLimpio = rawObj[campo] ? rawObj[campo].trim() : "";
-        if (valorLimpio !== "" && (!productoActual || valorLimpio !== String(productoActual[campo]))) {
-            payload[campo] = valorLimpio;
-        }
+    const nombreLimpio = inputNombre.value.trim();
+    if (nombreLimpio !== "" && (!productoActual || nombreLimpio !== String(productoActual.nombre ?? ""))) {
+        formData.append("nombre", nombreLimpio);
+        huboCambios = true;
     }
 
-    const precioTexto = rawObj.precio ? String(rawObj.precio).trim() : "";
+    const precioTexto = inputPrecio.value.trim();
     if (precioTexto !== "") {
         const precioLimpio = parseFloat(precioTexto.replace(",", "."));
         if (Number.isNaN(precioLimpio) || precioLimpio < 0) {
             errores.push("El precio no es válido");
         } else if (!productoActual || precioLimpio !== Number(productoActual.precio)) {
-            payload.precio = precioLimpio;
+            formData.append("precio", String(precioLimpio));
+            huboCambios = true;
         }
     }
 
-    if (rawObj.activo === "true" || rawObj.activo === "false") {
-        const nuevoActivo = rawObj.activo === "true";
+    const tipoLimpio = selectTipo.value.trim();
+    if (tipoLimpio !== "" && (!productoActual || tipoLimpio !== String(productoActual.tipo ?? ""))) {
+        formData.append("tipo", tipoLimpio);
+        huboCambios = true;
+    }
+
+    if (selectActivo.value === "true" || selectActivo.value === "false") {
+        const nuevoActivo = selectActivo.value === "true";
         if (!productoActual || nuevoActivo !== Boolean(productoActual.activo)) {
-            payload.activo = nuevoActivo;
+            formData.append("activo", String(nuevoActivo));
+            huboCambios = true;
         }
     }
 
-    const camposEditables = ["nombre", "precio", "imagen", "tipo", "activo"];
-    if (!camposEditables.some((campo) => campo in payload)) {
+    const archivoImagen = inputImagen.files && inputImagen.files[0];
+    if (archivoImagen) {
+        formData.append("imagen", archivoImagen);
+        huboCambios = true;
+    }
+
+    if (!huboCambios) {
         errores.push("Modifique al menos un campo antes de guardar");
     }
 
@@ -151,10 +163,7 @@ formUpdateProduct.addEventListener("submit", async (event) => {
     try {
         const response = await fetch(`${urlBase}/api/productos/${idProductoActual}`, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
+            body: formData
         });
 
         const data = await response.json();

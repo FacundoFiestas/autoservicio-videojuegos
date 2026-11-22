@@ -32,7 +32,7 @@ router.get('/:id', validateId, getProductById);
 router.post('/', uploadImagen.single('imagen'), validateProduct, createProduct);
 
 // PUT /api/productos/:id -> Modificar producto
-router.put('/:id', validateId, validateProductUpdate, updateProduct);
+router.put('/:id', uploadImagen.single('imagen'), validateId, validateProductUpdate, updateProduct);
 
 // PATCH /api/productos/:id/estado -> Activar o desactivar producto
 router.patch('/:id/estado', validateId, toggleProductStatus);
