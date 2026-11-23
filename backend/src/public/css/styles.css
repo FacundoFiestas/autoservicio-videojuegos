@@ -48,6 +48,16 @@ header {
     margin-right: 15px;
 }
 
+.brand-info{
+    display: flex;
+    flex-direction: column;
+}
+.brand-info h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
 .alumnos-tag {
     font-size: 1rem;
     opacity: 0.85;
@@ -390,6 +400,13 @@ header {
     RESPONSIVE: Principal y Formularios CRUD
 ----------------------*/
 @media (max-width: 500px){
+    /* Header */
+    .logo-header {
+        width: 50px;
+    }
+    .brand-info h1 {
+        font-size: 1.2rem;
+    }
     /* Tarjetas */
     .card-producto {
         width: 100%;
