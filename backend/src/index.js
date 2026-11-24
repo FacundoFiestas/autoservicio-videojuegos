@@ -8,16 +8,21 @@ import { __dirname, join } from './api/utils/index.js';
 
 const app = express();
 
+// Config motor de vistas EJS
 app.set("view engine", "ejs");
 app.set("views", join(__dirname, "src/views"));
 
 /* ==============
     Middlewares
 ================ */
-app.use(express.static(join(__dirname, "src/public")));
-app.use(cors());
+
+app.use(express.static(join(__dirname, 'src/public'))); // archivos estáticos (CSS, JS del cliente, imágenes subidas, etc.)
+app.use(cors()); // Habilita CORS para peticiones desde distintos orígenes
+
+// Permite leer cuerpos de petición en formato JSON y formularios URL-encoded
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 // Probar conexión, sincronizar tablas y crear admin inicial
 const iniciarBaseDeDatos = async () => {
@@ -36,12 +41,12 @@ const iniciarBaseDeDatos = async () => {
 
 iniciarBaseDeDatos();
 
-// Rutas API
+// Endpoints API REST
 app.use('/api/productos', productRoutes);
 app.use('/api/usuarios', userRoutes);
 app.use('/api/ventas', saleRoutes);
 
-// Rutas EJS
+// Vistas renderizadas EJS
 app.use("/dashboard", viewRoutes);
 
 app.listen(config.port, () => {

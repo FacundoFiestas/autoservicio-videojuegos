@@ -194,6 +194,10 @@ main {
     .nav-container {
         justify-content: center;
     }
+
+    .card-producto{
+        width: 100%;
+    }
 }
 
 /* ---------------
@@ -604,4 +608,13 @@ main {
 
 .btn-pdf:hover {
     opacity: 0.9;
+}
+
+/* ---------------
+    Responsive 
+------------------ */
+@media (max-width: 550px) {
+    .card-producto{
+        width: 100%;
+    }
 }
