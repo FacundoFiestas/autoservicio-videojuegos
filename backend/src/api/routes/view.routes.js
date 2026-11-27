@@ -6,7 +6,8 @@ import {
     vistaAgregar,
     vistaObtener,
     vistaEliminar,
-    vistaModificar
+    vistaModificar,
+    vistaRegistros
 } from '../controllers/view.controllers.js';
 
 const router = Router();
@@ -29,5 +30,7 @@ router.get('/eliminar', vistaEliminar);
 
 // Formulario alta: GET /dashboard/modificar
 router.get('/modificar', vistaModificar);
+
+router.get('/registros', vistaRegistros);
 
 export default router;

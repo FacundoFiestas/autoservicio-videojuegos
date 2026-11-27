@@ -1,0 +1,224 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+
+<style>
+    .registros-wrapper {
+        max-width: 1150px;
+        margin: 0 auto;
+        padding: 1.5rem 1rem 3rem;
+    }
+    .registros-header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .tabla-scroll {
+        width: 100%;
+        overflow-x: auto;
+        margin-bottom: 2rem;
+    }
+    .tabla-registros {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+    .tabla-registros th,
+    .tabla-registros td {
+        padding: 0.75rem 0.9rem;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+    }
+    .tabla-registros th {
+        font-weight: 700;
+        background-color: rgba(128, 128, 128, 0.12);
+    }
+</style>
+
+<main class="registros-wrapper">
+    <div class="registros-header">
+        <h2>Registros y Estadísticas del Sistema</h2>
+        <button type="button" id="btn-descargar-encuestas">
+            Descargar encuestas (Excel)
+        </button>
+    </div>
+
+    <!-- 1. Top 10 Productos más vendidos -->
+    <section class="seccion-categoria">
+        <h3 class="titulo-categoria">Top 10 Productos Más Vendidos</h3>
+        <div class="tabla-scroll">
+            <table class="tabla-registros">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ID</th>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th>Unidades Vendidas</th>
+                        <th>Recaudación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (topProductosVendidos.length > 0) { %>
+                        <% topProductosVendidos.forEach((prod, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <td><%= prod.id %></td>
+                                <td><%= prod.nombre %></td>
+                                <td><%= prod.tipo %></td>
+                                <td><%= prod.unidadesVendidas %></td>
+                                <td>$ <%= prod.recaudacion.toLocaleString('es-AR') %></td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6">Aún no hay ventas registradas.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 2. Top 10 Ventas más caras -->
+    <section class="seccion-categoria">
+        <h3 class="titulo-categoria">Top 10 Ventas Más Caras</h3>
+        <div class="tabla-scroll">
+            <table class="tabla-registros">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ID Venta</th>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (topVentasCaras.length > 0) { %>
+                        <% topVentasCaras.forEach((venta, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <td>#<%= venta.id %></td>
+                                <td><%= venta.nombre_usuario %></td>
+                                <td><%= new Date(venta.fecha).toLocaleString('es-AR') %></td>
+                                <td>$ <%= Number(venta.precio_total).toLocaleString('es-AR') %></td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5">Aún no hay ventas registradas.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 3. Estadística adicional 1: Ventas por Categoría -->
+    <section class="seccion-categoria">
+        <h3 class="titulo-categoria">Estadística: Rendimiento por Categoría (PC vs Consola)</h3>
+        <div class="tabla-scroll">
+            <table class="tabla-registros">
+                <thead>
+                    <tr>
+                        <th>Categoría</th>
+                        <th>Productos Activos</th>
+                        <th>Unidades Vendidas</th>
+                        <th>Recaudación Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% estadisticasCategorias.forEach((cat) => { %>
+                        <tr>
+                            <td><%= cat.categoria %></td>
+                            <td><%= cat.catalogoActivo %></td>
+                            <td><%= cat.unidadesVendidas %></td>
+                            <td>$ <%= cat.recaudacion.toLocaleString('es-AR') %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 4. Estadística adicional 2: Resumen de accesos por Administrador -->
+    <section class="seccion-categoria">
+        <h3 class="titulo-categoria">Estadística: Actividad por Administrador</h3>
+        <div class="tabla-scroll">
+            <table class="tabla-registros">
+                <thead>
+                    <tr>
+                        <th>Administrador</th>
+                        <th>Email</th>
+                        <th>Total de Inicios de Sesión</th>
+                        <th>Último Acceso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (estadisticasAdmins.length > 0) { %>
+                        <% estadisticasAdmins.forEach((admin) => { %>
+                            <tr>
+                                <td><%= admin.nombre %></td>
+                                <td><%= admin.email %></td>
+                                <td><%= admin.cantidadIngresos %></td>
+                                <td><%= new Date(admin.ultimoAcceso).toLocaleString('es-AR') %></td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4">Sin actividad registrada todavía.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 5. Log completo de inicios de sesión -->
+    <section class="seccion-categoria">
+        <h3 class="titulo-categoria">Log de Inicios de Sesión de Administradores</h3>
+        <div class="tabla-scroll">
+            <table class="tabla-registros">
+                <thead>
+                    <tr>
+                        <th>ID Log</th>
+                        <th>ID Usuario</th>
+                        <th>Administrador</th>
+                        <th>Email</th>
+                        <th>Fecha y Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (logsLogin.length > 0) { %>
+                        <% logsLogin.forEach((log) => { %>
+                            <tr>
+                                <td><%= log.id %></td>
+                                <td><%= log.usuario_id %></td>
+                                <td><%= log.nombre %></td>
+                                <td><%= log.email %></td>
+                                <td><%= new Date(log.fecha).toLocaleString('es-AR') %></td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5">No hay inicios de sesión registrados.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <script>
+        const btnDescargarEncuestas = document.getElementById("btn-descargar-encuestas");
+        if (btnDescargarEncuestas) {
+            btnDescargarEncuestas.addEventListener("click", () => {
+                window.location.href = "/api/encuestas/excel";
+            });
+        }
+    </script>
+</main>
+
+<%- include("partials/footer.ejs") %>

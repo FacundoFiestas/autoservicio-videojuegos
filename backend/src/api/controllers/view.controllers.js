@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
-import Product from '../models/product.models.js';
-import User from '../models/user.models.js';
+import { Product, User, Sale, LoginLog } from '../models/index.js';
 
 export const vistaLogin = (req, res) => {
     return res.render('login', { error: null });
@@ -23,6 +22,14 @@ export const procesarLogin = async (req, res) => {
         if (!passwordValida) {
             return res.render('login', { error: 'Correo o contraseña incorrectos.' });
         }
+
+        // Guardar log de inicio de sesión del administrador
+        await LoginLog.create({
+            usuario_id: usuario.id,
+            nombre: usuario.nombre,
+            email: usuario.email,
+            fecha: new Date()
+        });
 
         return res.redirect('/dashboard/principal');
     } catch (error) {
@@ -82,5 +89,102 @@ export const vistaModificar = (req, res) => {
     } catch (error) {
         console.error("Error al cargar la vista de modificar:", error);
         return res.status(500).send("Error al cargar el formulario");
+    }
+};
+
+export const vistaRegistros = async (req, res) => {
+    try {
+        const [todasLasVentas, todosLosProductos, logsLogin] = await Promise.all([
+            Sale.findAll({
+                order: [['precio_total', 'DESC']],
+                include: [
+                    {
+                        model: Product,
+                        as: 'productos',
+                        attributes: ['id', 'nombre', 'tipo', 'precio'],
+                        through: {
+                            attributes: ['cantidad', 'precio_unitario']
+                        }
+                    }
+                ]
+            }),
+            Product.findAll(),
+            LoginLog.findAll({
+                order: [['fecha', 'DESC']]
+            })
+        ]);
+
+        // 1. Top 10 ventas más caras
+        const topVentasCaras = todasLasVentas.slice(0, 10);
+
+        // 2. Top 10 productos más vendidos + Estadística por categoría
+        const acumuladoProductos = new Map();
+        const statsCategorias = {
+            PC: { categoria: 'PC', catalogoActivo: 0, unidadesVendidas: 0, recaudacion: 0 },
+            Consola: { categoria: 'Consola', catalogoActivo: 0, unidadesVendidas: 0, recaudacion: 0 }
+        };
+
+        todosLosProductos.forEach((prod) => {
+            if (!prod.activo) return;
+            const claveCat = prod.tipo && prod.tipo.toLowerCase().includes('pc') ? 'PC' : 'Consola';
+            statsCategorias[claveCat].catalogoActivo += 1;
+        });
+
+        todasLasVentas.forEach((venta) => {
+            (venta.productos || []).forEach((prod) => {
+                const cantidad = Number(prod.SaleProduct?.cantidad ?? 1);
+                const precioUnit = Number(prod.SaleProduct?.precio_unitario ?? prod.precio ?? 0);
+                const subtotal = cantidad * precioUnit;
+
+                if (!acumuladoProductos.has(prod.id)) {
+                    acumuladoProductos.set(prod.id, {
+                        id: prod.id,
+                        nombre: prod.nombre,
+                        tipo: prod.tipo,
+                        unidadesVendidas: 0,
+                        recaudacion: 0
+                    });
+                }
+
+                const item = acumuladoProductos.get(prod.id);
+                item.unidadesVendidas += cantidad;
+                item.recaudacion += subtotal;
+
+                const claveCat = prod.tipo && prod.tipo.toLowerCase().includes('pc') ? 'PC' : 'Consola';
+                statsCategorias[claveCat].unidadesVendidas += cantidad;
+                statsCategorias[claveCat].recaudacion += subtotal;
+            });
+        });
+
+        const topProductosVendidos = Array.from(acumuladoProductos.values())
+            .sort((a, b) => b.unidadesVendidas - a.unidadesVendidas)
+            .slice(0, 10);
+
+        // 3. Estadística adicional de logs: resumen de accesos por administrador
+        const acumuladoAdmins = new Map();
+        logsLogin.forEach((log) => {
+            if (!acumuladoAdmins.has(log.email)) {
+                acumuladoAdmins.set(log.email, {
+                    nombre: log.nombre,
+                    email: log.email,
+                    cantidadIngresos: 0,
+                    ultimoAcceso: log.fecha
+                });
+            }
+            const adminStat = acumuladoAdmins.get(log.email);
+            adminStat.cantidadIngresos += 1;
+        });
+
+        return res.render('registros', {
+            title: 'Registros y Estadísticas',
+            topProductosVendidos,
+            topVentasCaras,
+            logsLogin,
+            estadisticasCategorias: Object.values(statsCategorias),
+            estadisticasAdmins: Array.from(acumuladoAdmins.values())
+        });
+    } catch (error) {
+        console.error("Error al cargar la vista de registros:", error);
+        return res.status(500).send("Error interno al cargar los registros");
     }
 };

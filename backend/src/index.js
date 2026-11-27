@@ -3,7 +3,7 @@ import cors from 'cors';
 import config from './api/config/environments.js';
 import sequelize, { testConnection } from './api/database/db.js';
 import { User } from './api/models/index.js';
-import { productRoutes, userRoutes, saleRoutes, viewRoutes } from "./api/routes/index.js";
+import { productRoutes, userRoutes, saleRoutes, viewRoutes, surveyRoutes } from "./api/routes/index.js";
 import { __dirname, join } from './api/utils/index.js';
 
 const app = express();
