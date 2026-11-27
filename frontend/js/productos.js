@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div>
                             <p class="card-precio">$ ${producto.precio.toLocaleString("es-AR")}</p>
                             <div class="card-acciones">
+                                <a href="detalle.html?id=${producto.id}" class="btn-detalle">Ver detalle</a>
                                 <button type="button" class="btn-agregar" onclick="agregarAlCarrito(${producto.id})">
                                     ${cantidad > 0 ? `Agregar (+1) — En carrito: ${cantidad}` : "Agregar al carrito"}
                                 </button>

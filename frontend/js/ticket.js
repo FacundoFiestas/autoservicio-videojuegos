@@ -77,9 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.removeItem("autogames_cliente");
         localStorage.removeItem("autogames_carrito");
         localStorage.removeItem("autogames_ultimo_ticket");
-        window.location.href = "index.html";
+        window.location.href = "encuesta.html";
     }
 
     document.getElementById("btn-finalizar-salir").addEventListener("click", reiniciarSistema);
     document.getElementById("btn-salir-header").addEventListener("click", reiniciarSistema);
 });
+

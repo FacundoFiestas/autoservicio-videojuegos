@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoGames - Encuesta de Satisfacción</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .encuesta-container {
+            max-width: 620px;
+            margin: 2rem auto;
+            padding: 1.75rem;
+            background: rgba(128, 128, 128, 0.08);
+            border: 1px solid rgba(128, 128, 128, 0.25);
+            border-radius: 12px;
+        }
+        .form-grupo {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 1.25rem;
+        }
+        .form-grupo input[type="email"],
+        .form-grupo textarea,
+        .form-grupo input[type="file"] {
+            padding: 0.65rem;
+            border-radius: 6px;
+            border: 1px solid rgba(128, 128, 128, 0.4);
+            font-family: inherit;
+        }
+        .slider-fila {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .slider-fila input[type="range"] {
+            flex: 1;
+        }
+        .slider-valor {
+            font-weight: 700;
+            min-width: 3.5rem;
+            text-align: center;
+        }
+        .checkbox-fila {
+            flex-direction: row;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .error-texto {
+            color: #ef4444;
+            font-size: 0.85rem;
+            min-height: 1.1rem;
+        }
+        .encuesta-acciones {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        /* Botón principal destacado */
+        .btn-enviar-encuesta {
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            border-radius: 8px;
+            border: none;
+            background-color: #2563eb;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        /* Botón omitir visible pero de menor jerarquía visual */
+        .btn-omitir-encuesta {
+            padding: 0.5rem 0.9rem;
+            font-size: 0.88rem;
+            font-weight: 400;
+            border-radius: 6px;
+            border: 1px solid rgba(128, 128, 128, 0.35);
+            background: transparent;
+            color: inherit;
+            opacity: 0.75;
+            cursor: pointer;
+        }
+        .btn-omitir-encuesta:hover {
+            opacity: 1;
+        }
+        /* Modal de agradecimiento */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 1000;
+        }
+        .modal-overlay[hidden] {
+            display: none;
+        }
+        .modal-box {
+            max-width: 420px;
+            width: 100%;
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <main class="encuesta-container">
+        <h2>Tu opinión nos ayuda a mejorar</h2>
+        <p>Completá esta breve encuesta sobre tu experiencia en AutoGames.</p>
+
+        <form id="form-encuesta" novalidate>
+            <!-- 1. Input EMAIL -->
+            <div class="form-grupo">
+                <label for="email">Correo electrónico *</label>
+                <input type="email" id="email" name="email" placeholder="cliente@ejemplo.com" required>
+                <span class="error-texto" id="error-email"></span>
+            </div>
+
+            <!-- 2. Input SLIDER (range) -->
+            <div class="form-grupo">
+                <label for="puntuacion">Puntuación del servicio (1 al 10) *</label>
+                <div class="slider-fila">
+                    <input type="range" id="puntuacion" name="puntuacion" min="1" max="10" step="1" value="8">
+                    <span class="slider-valor" id="valor-puntuacion">8 / 10</span>
+                </div>
+                <span class="error-texto" id="error-puntuacion"></span>
+            </div>
+
+            <!-- 3. Input TEXTAREA -->
+            <div class="form-grupo">
+                <label for="opinion">Contanos tu opinión *</label>
+                <textarea id="opinion" name="opinion" rows="4" placeholder="¿Qué te pareció la atención y el catálogo?"></textarea>
+                <span class="error-texto" id="error-opinion"></span>
+            </div>
+
+            <!-- 4. Input CHECKBOX -->
+            <div class="form-grupo checkbox-fila">
+                <input type="checkbox" id="recomienda" name="recomienda">
+                <label for="recomienda">Recomendaría AutoGames a otras personas</label>
+            </div>
+
+            <!-- 5. Input FILE (imagen) -->
+            <div class="form-grupo">
+                <label for="imagen">Subí una foto de tu experiencia o ticket (imagen) *</label>
+                <input type="file" id="imagen" name="imagen" accept="image/*" required>
+                <span class="error-texto" id="error-imagen"></span>
+            </div>
+
+            <span class="error-texto" id="error-general"></span>
+
+            <div class="encuesta-acciones">
+                <button type="button" id="btn-omitir" class="btn-omitir-encuesta">
+                    Omitir encuesta
+                </button>
+                <button type="submit" id="btn-enviar" class="btn-enviar-encuesta">
+                    Enviar encuesta
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Modal de agradecimiento -->
+    <div id="modal-agradecimiento" class="modal-overlay" hidden>
+        <div class="modal-box">
+            <h3>¡Muchas gracias por tu tiempo!</h3>
+            <p>Tu encuesta fue registrada correctamente.</p>
+            <button type="button" id="btn-cerrar-modal" class="btn-enviar-encuesta">
+                Volver al inicio
+            </button>
+        </div>
+    </div>
+
+    <script src="js/encuesta.js"></script>
+</body>
+</html>

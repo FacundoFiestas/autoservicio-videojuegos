@@ -148,3 +148,4 @@ vite.config.ts.timestamp-*
 # Turbo Repo
 .turbo
 backend/src/public/uploads/productos/*
+backend/src/public/uploads/encuestas/*
