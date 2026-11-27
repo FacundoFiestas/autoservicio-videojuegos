@@ -7,5 +7,6 @@ export {
     productRoutes,
     userRoutes,
     saleRoutes,
+    surveyRoutes,
     viewRoutes
 };

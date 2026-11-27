@@ -45,6 +45,7 @@ iniciarBaseDeDatos();
 app.use('/api/productos', productRoutes);
 app.use('/api/usuarios', userRoutes);
 app.use('/api/ventas', saleRoutes);
+app.use('/api/encuestas', surveyRoutes);
 
 // Vistas renderizadas EJS
 app.use("/dashboard", viewRoutes);

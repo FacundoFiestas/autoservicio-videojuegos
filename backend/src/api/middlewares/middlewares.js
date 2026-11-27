@@ -122,3 +122,72 @@ export const validateProductUpdate = (req, res, next) => {
 
     next();
 };
+
+const uploadEncuestaDir = path.resolve("src/public/uploads/encuestas");
+
+const storageEncuesta = multer.diskStorage({
+    destination: (req, file, cb) => {
+        fs.mkdirSync(uploadEncuestaDir, { recursive: true });
+        cb(null, uploadEncuestaDir);
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        cb(null, `${Date.now()}${ext}`);
+    }
+});
+
+const imageFileFilter = (req, file, cb) => {
+    if (file.mimetype && file.mimetype.startsWith("image/")) {
+        cb(null, true);
+    } else {
+        cb(new Error("El archivo debe ser una imagen válida (JPG, PNG, WEBP, etc.)"), false);
+    }
+};
+
+export const uploadImagenEncuesta = multer({
+    storage: storageEncuesta,
+    fileFilter: imageFileFilter
+});
+
+export const validateSurvey = (req, res, next) => {
+    const { email, opinion, puntuacion } = req.body;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || typeof email !== "string" || !emailRegex.test(email.trim())) {
+        return res.status(400).json({
+            success: false,
+            message: "Debés ingresar un correo electrónico válido"
+        });
+    }
+
+    if (!opinion || typeof opinion !== "string" || opinion.trim().length < 5) {
+        return res.status(400).json({
+            success: false,
+            message: "La opinión es obligatoria y debe tener al menos 5 caracteres"
+        });
+    }
+
+    const puntNum = Number(puntuacion);
+    if (
+        puntuacion === undefined ||
+        puntuacion === null ||
+        puntuacion === "" ||
+        !Number.isInteger(puntNum) ||
+        puntNum < 1 ||
+        puntNum > 10
+    ) {
+        return res.status(400).json({
+            success: false,
+            message: "La puntuación debe ser un número entero entre 1 y 10"
+        });
+    }
+
+    if (!req.file) {
+        return res.status(400).json({
+            success: false,
+            message: "Debés adjuntar una imagen válida para enviar la encuesta"
+        });
+    }
+
+    next();
+};
